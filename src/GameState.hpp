@@ -7,6 +7,7 @@
 #include <memory>
 #include <fstream>
 #include <sstream>
+#include <functional>
 
 #include <SFML/Graphics.hpp>
 
@@ -26,8 +27,9 @@ class GameState
         Resource<std::string> m_lua_script;
         
         sf::RenderWindow &m_window;       
-        std::map<std::string, sf::Keyboard::Key> m_key_map;
-        std::map<sf::Event::EventType, std::string> m_event_map;
+        std::map<std::string, sf::Keyboard::Key> m_keymap;
+        std::map<sf::Keyboard::Key, std::string> m_keymap_rev;
+        std::map<sf::Event::EventType, std::function<void(const sf::Event&)>> m_eventmap;
 
         static std::unique_ptr<std::string> LoadScript(const std::string &p_path);
 };

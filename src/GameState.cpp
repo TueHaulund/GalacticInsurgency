@@ -5,30 +5,40 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
     //Run main Lua script in our newly created state
     m_lua_state(m_lua_script.Get().c_str());
 
-    //Populate key map, mapping strings to SFML keys
-    m_key_map = {
+    //Populate key map, mapping strings to SFML keys and vice-versa
+    m_keymap =
+    {
         {"up",    sf::Keyboard::Up},
         {"down",  sf::Keyboard::Down},
         {"left",  sf::Keyboard::Left},
         {"right", sf::Keyboard::Right}
     };
 
+    for(auto &pair : m_keymap)
+        m_keymap_rev[pair.second] = pair.first;
+
+    //Populate event map, mapping event types to Lua forwarding lambdas
+    auto lhe = m_lua_state["interface"]["handle_event"];
+    auto contains = [this] (sf::Keyboard::Key c) {return m_keymap_rev.find(c) != m_keymap_rev.end();};
+    typedef const sf::Event& Evt;
+
+    m_eventmap =
+    {
+        {sf::Event::Closed,      [=] (Evt e) {lhe("closed");}},
+        {sf::Event::Resized,     [=] (Evt e) {lhe("resized", e.size.width, e.size.height);}},
+        {sf::Event::LostFocus,   [=] (Evt e) {lhe("lost_focus");}},
+        {sf::Event::GainedFocus, [=] (Evt e) {lhe("gained_focus");}},
+        {sf::Event::KeyPressed,  [=] (Evt e) {if(contains(e.key.code)) lhe("key_pressed", m_keymap_rev.at(e.key.code));}},
+        {sf::Event::KeyReleased, [=] (Evt e) {if(contains(e.key.code)) lhe("key_released", m_keymap_rev.at(e.key.code));}}
+    };
+
     //Inject key-polling function into Lua state
     m_lua_state["interface"]["is_key_pressed"] = [&](const std::string &p_key) -> bool
     {
-        if(m_key_map.find(p_key) != m_key_map.end())
-            return sf::Keyboard::isKeyPressed(m_key_map.at(p_key));
+        if(m_keymap.find(p_key) != m_keymap.end())
+            return sf::Keyboard::isKeyPressed(m_keymap.at(p_key));
         else
             return false;
-    };
-
-    //Populate event map, mapping SFML events to strings
-    m_event_map = {
-        {sf::Event::Closed,       "closed"},
-        {sf::Event::LostFocus,    "lost_focus"},
-        {sf::Event::GainedFocus,  "gained_focus"},
-        {sf::Event::MouseLeft,    "mouse_left"},
-        {sf::Event::MouseEntered, "mouse_entered"}
     };
 
     //Inject exit function into Lua state
@@ -50,8 +60,8 @@ void GameState::Update(float p_dt)
     sf::Event event;
     while(m_window.pollEvent(event))
     {
-        if(m_event_map.find(event.type) != m_event_map.end())
-            m_lua_state["interface"]["handle_event"](m_event_map.at(event.type));
+        if(m_eventmap.find(event.type) != m_eventmap.end())
+            m_eventmap.at(event.type)(event);
     }
 
     return;
