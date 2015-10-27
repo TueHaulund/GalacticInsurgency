@@ -31,6 +31,9 @@ class GameState
         std::map<sf::Keyboard::Key, std::string> m_keymap_rev;
         std::map<sf::Event::EventType, std::function<void(const sf::Event&)>> m_eventmap;
 
+        void BuildKeymap();
+        void BuildEventmap();
+        
         static std::unique_ptr<std::string> LoadScript(const std::string &p_path);
 };
 
