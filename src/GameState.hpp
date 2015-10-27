@@ -10,6 +10,7 @@
 #include <functional>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include <selene.h>
 
@@ -33,8 +34,11 @@ class GameState
 
         void BuildKeymap();
         void BuildEventmap();
+        void ExposeAudio();
         
         static std::unique_ptr<std::string> LoadScript(const std::string &p_path);
+        static std::unique_ptr<sf::SoundBuffer> LoadSound(const std::string &p_path);
+        static std::unique_ptr<sf::Music> LoadMusic(const std::string &p_path);
 };
 
 #endif

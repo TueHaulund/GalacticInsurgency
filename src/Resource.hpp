@@ -14,6 +14,17 @@ class Resource
         {
             if(!m_cache.Contains(m_path))
                 m_cache.AddResource(m_path, p_loader(m_path));
+
+            return;
+        }
+
+        template <class ResourceLoader>
+        static void Load(const std::string &p_path, ResourceLoader p_loader)
+        {
+            if(!m_cache.Contains(p_path))
+                m_cache.AddResource(p_path, p_loader(p_path));
+
+            return;
         }
 
         ResourceType& Get() const
@@ -30,6 +41,7 @@ class Resource
                 void AddResource(const std::string &p_path, std::unique_ptr<ResourceType> p_resource)
                 {
                     m_rmap[p_path] = std::move(p_resource);
+                    return;
                 }
 
                 ResourceType& GetResource(const std::string &p_path) const

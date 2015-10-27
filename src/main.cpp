@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 
-#include "Resource.hpp"
 #include "GameState.hpp"
 
 int main()
