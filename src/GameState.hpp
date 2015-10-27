@@ -10,11 +10,11 @@
 #include <functional>
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 
 #include <selene.h>
 
 #include "Resource.hpp"
+#include "AudioState.hpp"
 
 class GameState
 {
@@ -27,18 +27,17 @@ class GameState
         sel::State m_lua_state;
         Resource<std::string> m_lua_script;
         
-        sf::RenderWindow &m_window;       
+        sf::RenderWindow &m_window;
         std::map<std::string, sf::Keyboard::Key> m_keymap;
         std::map<sf::Keyboard::Key, std::string> m_keymap_rev;
         std::map<sf::Event::EventType, std::function<void(const sf::Event&)>> m_eventmap;
 
+        AudioState m_audiostate;
+
         void BuildKeymap();
         void BuildEventmap();
-        void ExposeAudio();
         
         static std::unique_ptr<std::string> LoadScript(const std::string &p_path);
-        static std::unique_ptr<sf::SoundBuffer> LoadSound(const std::string &p_path);
-        static std::unique_ptr<sf::Music> LoadMusic(const std::string &p_path);
 };
 
 #endif

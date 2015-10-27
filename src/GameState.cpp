@@ -1,6 +1,9 @@
 #include "GameState.hpp"
 
-GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, bool p_libs) : m_lua_state(p_libs), m_lua_script(p_lua_path, LoadScript), m_window(p_window)
+GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, bool p_libs) : 
+    m_lua_state(p_libs),
+    m_lua_script(p_lua_path, LoadScript),
+    m_window(p_window)
 {
     //Run main Lua script in our newly created state
     m_lua_state(m_lua_script.Get().c_str());
@@ -12,7 +15,7 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
     auto lua_interface = m_lua_state["interface"];
 
     //Inject key-polling function into Lua state
-    lua_interface["is_key_pressed"] = [&] (const std::string &p_key) -> bool
+    lua_interface["is_key_pressed"] = [this] (const std::string &p_key) -> bool
     {
         if(m_keymap.find(p_key) != m_keymap.end())
             return sf::Keyboard::isKeyPressed(m_keymap.at(p_key));
@@ -21,15 +24,14 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
     };
 
     //Inject exit function into Lua state
-    lua_interface["exit"] = [&] () -> void
+    lua_interface["exit"] = [this] () -> void
     {
         //Closing the window terminates the main game loop
         m_window.close();
         return;
     };
 
-    //Inject functions for loading and playing audio files
-    ExposeAudio();
+    m_audiostate(m_lua_state);
 
     return;
 }
@@ -119,44 +121,6 @@ void GameState::BuildEventmap()
     return;
 }
 
-void GameState::ExposeAudio()
-{
-	auto lua_interface = m_lua_state["interface"];
-
-    //Inject function for preloading sound buffers
-    lua_interface["load_sound"] = [] (const std::string &p_path) -> void
-    {
-        Resource<sf::SoundBuffer>::Load(p_path, LoadSound);
-        return;
-    };
-
-    //Inject function for preloading music streams
-    lua_interface["load_music"] = [] (const std::string &p_path) -> void
-    {
-        Resource<sf::Music>::Load(p_path, LoadMusic);
-        return;
-    };
-    
-    //Inject function for playing sounds
-    lua_interface["play_sound"] = [] (const std::string &p_path) -> void
-    {
-        Resource<sf::SoundBuffer> buffer(p_path, LoadSound);
-        sf::Sound sound(buffer.Get());
-        sound.play();
-        return;
-    };
-
-    //Inject function for playing music
-    lua_interface["play_music"] = [] (const std::string &p_path) -> void
-    {
-        Resource<sf::Music> music(p_path, LoadMusic);
-        music.Get().play();
-        return;
-    };    
-
-	return;
-}
-
 //Loads a script from a file into a std::string
 std::unique_ptr<std::string> GameState::LoadScript(const std::string &p_path)
 {
@@ -171,26 +135,4 @@ std::unique_ptr<std::string> GameState::LoadScript(const std::string &p_path)
     *script = buffer.str();
 
     return script;
-}
-
-//Loads audio file into an sf::SoundBuffer
-std::unique_ptr<sf::SoundBuffer> GameState::LoadSound(const std::string &p_path)
-{
-    auto sound = std::make_unique<sf::SoundBuffer>();
-
-    if(!sound->loadFromFile(p_path))
-        throw std::runtime_error("Unable to load sound: " + p_path);
-
-    return sound;
-}
-
-//Loads a music stream into an sf::Music object
-std::unique_ptr<sf::Music> GameState::LoadMusic(const std::string &p_path)
-{
-    auto music = std::make_unique<sf::Music>();
-
-    if(!music->openFromFile(p_path))
-        throw std::runtime_error("Unable to load music: " + p_path);
-
-    return music;
 }
