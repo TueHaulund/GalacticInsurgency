@@ -21,7 +21,6 @@ class GameState
     public:
         GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, bool p_libs = true);
         void Update(float p_dt);
-        void Draw();
 
     private:
         sel::State m_lua_state;

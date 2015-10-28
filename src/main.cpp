@@ -12,9 +12,8 @@ int main()
     while(window.isOpen())
     {
         sf::Time dt = clock.restart();
-        state.Update(dt.asSeconds());
         window.clear();
-        state.Draw();
+        state.Update(dt.asSeconds());
         window.display();
     }
 

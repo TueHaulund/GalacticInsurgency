@@ -1,24 +1,33 @@
 --main.lua
 
---Import tiny-ecs
-tiny = require("scripts/tiny")
-
-local world = tiny.world()
-
 --Global C++ interface object
 interface = {}
 
+--Import tiny-ecs
+tiny = require("scripts/tiny")
+
+--Import systems and entities
+require("scripts/systems/movement")
+require("scripts/systems/control")
+require("scripts/systems/render")
+require("scripts/player")
+
+--Set up world and systems
+local world = tiny.world()
+
+tiny.addEntity(world, player)
+tiny.addSystem(world, controlSystem)
+tiny.addSystem(world, movementSystem)
+tiny.addSystem(world, renderSystem)
+
+tiny.refresh(world)
+tiny.setSystemIndex(world, controlSystem, 1)
+tiny.setSystemIndex(world, movementSystem, 2)
+tiny.setSystemIndex(world, renderSystem, 3)
+
 --Main update function, called from C++
 function interface.update(dt)
-    world:update(dt)
-    print(dt)
-    print(interface.is_key_pressed("down"))
-end
-
---Main draw function, called from C++
-function interface.draw()
-    print("draw")
-    os.execute("sleep 1")
+    tiny.update(world, dt)
 end
 
 --Table of actions to take on specific events

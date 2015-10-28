@@ -52,12 +52,6 @@ void GameState::Update(float p_dt)
     return;
 }
 
-void GameState::Draw()
-{
-    m_lua_state["interface"]["draw"]();
-    return;
-}
-
 void GameState::BuildKeymap()
 {
     m_keymap = {
