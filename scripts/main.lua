@@ -15,15 +15,20 @@ require("scripts/player")
 --Set up world and systems
 local world = tiny.world()
 
-tiny.addEntity(world, player)
-tiny.addSystem(world, controlSystem)
-tiny.addSystem(world, movementSystem)
-tiny.addSystem(world, renderSystem)
+--Setup function, called from C++
+function interface.setup()
+    tiny.addEntity(world, player)
+    interface.load_sprite(player.sprite.identifier, player.sprite.path)
 
-tiny.refresh(world)
-tiny.setSystemIndex(world, controlSystem, 1)
-tiny.setSystemIndex(world, movementSystem, 2)
-tiny.setSystemIndex(world, renderSystem, 3)
+    tiny.addSystem(world, controlSystem)
+    tiny.addSystem(world, movementSystem)
+    tiny.addSystem(world, renderSystem)
+
+    tiny.refresh(world)
+    tiny.setSystemIndex(world, controlSystem, 1)
+    tiny.setSystemIndex(world, movementSystem, 2)
+    tiny.setSystemIndex(world, renderSystem, 3)
+end
 
 --Main update function, called from C++
 function interface.update(dt)

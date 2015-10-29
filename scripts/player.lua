@@ -21,5 +21,10 @@ player = {
             up = "w",
             down = "s"
         }
+    },
+
+    sprite = {
+        path = "data/sprites/player.tga",
+        identifier = "player_ship"
     }
 }

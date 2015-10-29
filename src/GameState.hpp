@@ -14,6 +14,7 @@
 #include <selene.h>
 
 #include "Resource.hpp"
+#include "RenderState.hpp"
 #include "AudioState.hpp"
 
 class GameState
@@ -32,6 +33,7 @@ class GameState
         std::map<sf::Event::EventType, std::function<void(const sf::Event&)>> m_eventmap;
 
         AudioState m_audiostate;
+        RenderState m_renderstate;
 
         void BuildKeymap();
         void BuildEventmap();

@@ -31,7 +31,10 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
         return;
     };
 
+    m_renderstate(m_lua_state, m_window);
     m_audiostate(m_lua_state);
+
+    lua_interface["setup"]();
 
     return;
 }
