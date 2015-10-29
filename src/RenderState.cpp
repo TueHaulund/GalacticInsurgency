@@ -14,7 +14,7 @@ void RenderState::operator()(sel::State &p_lua_state, sf::RenderWindow &p_window
         return false;
     };
 
-    lua_interface["load_sprite"] = [=] (const std::string &p_identifier, const std::string &p_path) -> void
+    lua_interface["load_sprite"] = [this, map_apply] (const std::string &p_identifier, const std::string &p_path) -> void
     {
         Resource<sf::Texture> texture(p_path, LoadTexture);
 
@@ -36,7 +36,8 @@ void RenderState::operator()(sel::State &p_lua_state, sf::RenderWindow &p_window
         return;
     };
 
-    lua_interface["set_sprite_position"] = [=] (const std::string &p_identifier, int p_x, int p_y) -> void
+    //TODO: Change type of p_x and p_y to lua_Number when Selene regressions have been fixed
+    lua_interface["set_sprite_position"] = [map_apply] (const std::string &p_identifier, int p_x, int p_y) -> void
     {
         map_apply(p_identifier, [p_x, p_y] (sf::Sprite &s) -> void
         {

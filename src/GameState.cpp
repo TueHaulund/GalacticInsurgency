@@ -31,9 +31,11 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
         return;
     };
 
+    //Inject functions to rendering and playing sounds/music
     m_renderstate(m_lua_state, m_window);
     m_audiostate(m_lua_state);
 
+    //All interface functions in place, tell  Lua to setup the game world
     lua_interface["setup"]();
 
     return;

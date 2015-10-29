@@ -21,7 +21,7 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return false;
     };
 
-    lua_interface["load_sound"] = [=] (const std::string &p_identifier, const std::string &p_path) -> void
+    lua_interface["load_sound"] = [this, map_apply] (const std::string &p_identifier, const std::string &p_path) -> void
     {
         Resource<sf::SoundBuffer> buffer(p_path, LoadSound);
 
@@ -43,7 +43,7 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["play_sound"] = [=] (const std::string &p_identifier) -> void
+    lua_interface["play_sound"] = [map_apply] (const std::string &p_identifier) -> void
     { 
         map_apply(p_identifier, [] (sf::Sound &s) -> void
         {
@@ -53,7 +53,7 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["pause_sound"] = [=] (const std::string &p_identifier) -> void
+    lua_interface["pause_sound"] = [map_apply] (const std::string &p_identifier) -> void
     {
         map_apply(p_identifier, [] (sf::Sound &s) -> void
         {
@@ -63,7 +63,7 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["stop_sound"] = [=] (const std::string &p_identifier) -> void
+    lua_interface["stop_sound"] = [map_apply] (const std::string &p_identifier) -> void
     {
         map_apply(p_identifier, [] (sf::Sound &s) -> void
         {
@@ -73,7 +73,7 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["set_sound_volume"] = [=] (const std::string &p_identifier, int p_volume) -> void
+    lua_interface["set_sound_volume"] = [map_apply] (const std::string &p_identifier, int p_volume) -> void
     {
         map_apply(p_identifier, [p_volume] (sf::Sound &s) -> void
         {
@@ -83,7 +83,7 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["set_sound_loop"] = [=] (const std::string &p_identifier, bool p_loop) -> void
+    lua_interface["set_sound_loop"] = [map_apply] (const std::string &p_identifier, bool p_loop) -> void
     {
         map_apply(p_identifier, [p_loop] (sf::Sound &s) -> void
         {
@@ -107,7 +107,7 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["load_music"] = [=] (const std::string &p_identifier, const std::string &p_path) -> void
+    lua_interface["load_music"] = [this] (const std::string &p_identifier, const std::string &p_path) -> void
     {
         m_musicmap[p_identifier] = std::make_unique<sf::Music>();
         if(!m_musicmap[p_identifier]->openFromFile(p_path))
@@ -122,7 +122,7 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["play_music"] = [=] (const std::string &p_identifier) -> void
+    lua_interface["play_music"] = [map_apply] (const std::string &p_identifier) -> void
     { 
         map_apply(p_identifier, [] (sf::Music &m) -> void
         {
@@ -132,7 +132,7 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["pause_music"] = [=] (const std::string &p_identifier) -> void
+    lua_interface["pause_music"] = [map_apply] (const std::string &p_identifier) -> void
     {
         map_apply(p_identifier, [] (sf::Music &m) -> void
         {
@@ -142,7 +142,7 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["stop_music"] = [=] (const std::string &p_identifier) -> void
+    lua_interface["stop_music"] = [map_apply] (const std::string &p_identifier) -> void
     {
         map_apply(p_identifier, [] (sf::Music &m) -> void
         {
@@ -152,7 +152,7 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["set_music_volume"] = [=] (const std::string &p_identifier, int p_volume) -> void
+    lua_interface["set_music_volume"] = [map_apply] (const std::string &p_identifier, int p_volume) -> void
     {
         map_apply(p_identifier, [p_volume] (sf::Music &m) -> void
         {
@@ -162,7 +162,7 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["set_music_loop"] = [=] (const std::string &p_identifier, bool p_loop) -> void
+    lua_interface["set_music_loop"] = [map_apply] (const std::string &p_identifier, bool p_loop) -> void
     {
         map_apply(p_identifier, [p_loop] (sf::Music &m) -> void
         {
