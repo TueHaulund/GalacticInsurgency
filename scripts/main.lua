@@ -3,6 +3,8 @@
 --Global C++ interface object
 interface = {}
 
+require("scripts/options")
+
 --Import tiny-ecs
 tiny = require("scripts/tiny")
 
@@ -18,7 +20,6 @@ local world = tiny.world()
 --Setup function, called from C++
 function interface.setup()
     tiny.addEntity(world, player)
-    interface.load_sprite(player.sprite.identifier, player.sprite.path)
 
     tiny.addSystem(world, controlSystem)
     tiny.addSystem(world, movementSystem)
@@ -38,7 +39,7 @@ end
 --Table of actions to take on specific events
 local event_actions = {
     ["closed"]       = function() print("closed") interface.exit() end,
-    ["resized"]      = function(w, h) print("resized: "..w.." "..h) end,
+    ["resized"]      = function(w, h) end,-- options.screen.h = h options.screen.w = w end,
     ["lost_focus"]   = function() print("lost focus") end,
     ["gained_focus"] = function() print("gained focus") end,
     ["key_pressed"]  = function(key) print("press: "..key) end,

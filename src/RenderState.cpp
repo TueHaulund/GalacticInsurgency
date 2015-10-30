@@ -47,6 +47,16 @@ void RenderState::operator()(sel::State &p_lua_state, sf::RenderWindow &p_window
         return;
     };
 
+    lua_interface["set_sprite_clip"] = [map_apply] (const std::string &p_identifier, int p_l, int p_t, int p_w, int p_h) -> void
+    {
+        map_apply(p_identifier, [p_l, p_t, p_w, p_h] (sf::Sprite &s) -> void
+        {
+            s.setTextureRect(sf::IntRect(p_l, p_t, p_w, p_h));
+            return;
+        });
+        return;
+    };
+
     lua_interface["draw_sprite"] = [map_apply, &p_window] (const std::string &p_identifier) -> void
     {
         map_apply(p_identifier, [&p_window] (sf::Sprite &s) -> void

@@ -6,25 +6,29 @@ player = {
         y = 100
     },
 
+    size = {
+        w = 34,
+        h = 26
+    },
+
     velocity = {
         x = 0,
         y = 0,
-        delta = {x = 0.01, y = 0.01},
-        max = {x = 5, y = 5},
-        min = {x = -5, y = -5}
+        delta = {x = 40, y = 40},
+        max = {x = 50, y = 50},
+        min = {x = -50, y = -50}
     },
 
-    player = {
-        controls = {
-            left = "a",
-            right = "d",
-            up = "w",
-            down = "s"
-        }
+    control = {
+        left = "a",
+        right = "d",
+        up = "w",
+        down = "s"
     },
 
     sprite = {
         path = "data/sprites/player.tga",
-        identifier = "player_ship"
+        identifier = "player_ship",
+        clip = {left = 34, top = 0, width = 34, height = 26}
     }
 }
