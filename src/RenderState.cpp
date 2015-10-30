@@ -2,6 +2,34 @@
 
 void RenderState::operator()(sel::State &p_lua_state, sf::RenderWindow &p_window)
 {
+    WindowInterface(p_lua_state, p_window);
+    SpriteInterface(p_lua_state, p_window);
+    return;
+}
+
+void RenderState::WindowInterface(sel::State &p_lua_state, sf::RenderWindow &p_window)
+{
+    auto lua_interface = p_lua_state["interface"];
+    
+    lua_interface["create_window"] = [&p_window] (int p_w, int p_h, int p_bpp, int p_fps, const std::string &p_title) -> void
+    {
+        p_window.create(sf::VideoMode(p_w, p_h, p_bpp), p_title, sf::Style::None);
+        p_window.setFramerateLimit(p_fps);
+        p_window.setKeyRepeatEnabled(false);
+        return;
+    };
+
+    lua_interface["resize_window"] = [&p_window] (int p_w, int p_h) -> void
+    {
+        p_window.setSize(sf::Vector2u(p_w, p_h));
+        return;
+    };
+
+    return;
+}
+
+void RenderState::SpriteInterface(sel::State &p_lua_state, sf::RenderWindow &p_window)
+{
     auto lua_interface = p_lua_state["interface"];
     auto map_apply = [this] (const std::string &p_identifier, std::function<void(sf::Sprite&)> p_func) -> bool
     {

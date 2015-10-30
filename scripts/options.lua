@@ -1,8 +1,12 @@
 --options.lua
 
 options = {
-    screen = {
-        w = 500,
-        h = 500
-    }
+    video = {
+        w = 800,
+        h = 600,
+        bpp = 32,
+        fps = 60
+    },
+
+    title = "Interceptor2D"
 }

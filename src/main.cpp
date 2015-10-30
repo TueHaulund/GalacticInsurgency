@@ -4,7 +4,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(500, 500), "Interceptor2D");
+    sf::RenderWindow window;
     sf::Clock clock;
 
     GameState state("scripts/main.lua", window);

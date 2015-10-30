@@ -18,6 +18,9 @@ class RenderState
         void operator()(sel::State &p_lua_state, sf::RenderWindow &p_window);
 
     private:
+        void WindowInterface(sel::State &p_lua_state, sf::RenderWindow &p_window);
+        void SpriteInterface(sel::State &p_lua_state, sf::RenderWindow &p_window);
+
         std::map<std::string, std::unique_ptr<sf::Sprite>> m_spritemap;
 
         static std::unique_ptr<sf::Texture> LoadTexture(const std::string &p_path);

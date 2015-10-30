@@ -29,6 +29,9 @@ function interface.setup()
     tiny.setSystemIndex(world, controlSystem, 1)
     tiny.setSystemIndex(world, movementSystem, 2)
     tiny.setSystemIndex(world, renderSystem, 3)
+
+    local video = options.video
+    interface.create_window(video.w, video.h, video.bpp, video.fps, options.title);
 end
 
 --Main update function, called from C++
@@ -38,12 +41,31 @@ end
 
 --Table of actions to take on specific events
 local event_actions = {
-    ["closed"]       = function() print("closed") interface.exit() end,
-    ["resized"]      = function(w, h) end,-- options.screen.h = h options.screen.w = w end,
-    ["lost_focus"]   = function() print("lost focus") end,
-    ["gained_focus"] = function() print("gained focus") end,
-    ["key_pressed"]  = function(key) print("press: "..key) end,
-    ["key_released"] = function(key) print("released: "..key) end
+    closed = function()
+        interface.exit()
+    end,
+
+    resized = function(w, h)
+        options.video.h = h
+        options.video.w = w
+        interface.resize_window(w, h)
+    end,
+
+    lost_focus = function()
+
+    end,
+
+    gained_focus = function()
+
+    end,
+
+    key_pressed = function(k)
+
+    end,
+
+    key_released = function(k)
+
+    end
 }
 
 --Event handler, called from C++

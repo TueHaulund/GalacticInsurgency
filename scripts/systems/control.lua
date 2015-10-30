@@ -11,7 +11,7 @@ local limit_velocity = function(velocity)
 end
 
 local limit_position = function(position, size)
-    local screen = options.screen
+    local screen = options.video
     position.x = math.max(position.x, 0)
     position.x = math.min(position.x, (screen.w - size.w))
     position.y = math.max(position.y, 0)
