@@ -9,7 +9,7 @@ int main()
 
     GameState state("scripts/main.lua", window);
 
-    while(window.isOpen())
+    while(state.IsActive())
     {
         sf::Time dt = clock.restart();
         window.clear();

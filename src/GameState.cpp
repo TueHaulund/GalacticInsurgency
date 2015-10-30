@@ -5,6 +5,8 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
     m_lua_script(p_lua_path, LoadScript),
     m_window(p_window)
 {
+    m_active = true;
+
     //Run main Lua script in our newly created state
     m_lua_state(m_lua_script.Get().c_str());
 
@@ -26,12 +28,10 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
     //Inject exit function into Lua state
     lua_interface["exit"] = [this] () -> void
     {
-        //Closing the window terminates the main game loop
-        m_window.close();
-        return;
+        m_active = false;
     };
 
-    //Inject functions to rendering and playing sounds/music
+    //Inject functions for rendering and playing sounds/music
     m_renderstate(m_lua_state, m_window);
     m_audiostate(m_lua_state);
 
@@ -41,17 +41,25 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
     return;
 }
 
+bool GameState::IsActive() const
+{
+    return m_active;
+}
+
 void GameState::Update(float p_dt)
 {
-    //Update game state in Lua
-    m_lua_state["interface"]["update"](p_dt);
-    
-    //Pass events to Lua handler
-    sf::Event event;
-    while(m_window.pollEvent(event))
+    if(m_active)
     {
-        if(m_eventmap.find(event.type) != m_eventmap.end())
-            m_eventmap.at(event.type)(event);
+        //Update game state in Lua
+        m_lua_state["interface"]["update"](p_dt);
+
+        //Pass events to Lua handler
+        sf::Event event;
+        while(m_window.pollEvent(event))
+        {
+            if(m_eventmap.find(event.type) != m_eventmap.end())
+                m_eventmap.at(event.type)(event);
+        }
     }
 
     return;
