@@ -2,8 +2,8 @@
 
 local player = {
     position = {
-        x = 100,
-        y = 100
+        x = 383,
+        y = 450
     },
 
     size = {
@@ -13,29 +13,34 @@ local player = {
 
     velocity = {
         x = 0,
-        y = 0,
-
-        delta = {
-            x = 40,
-            y = 40
-        },
-
-        max = {
-            x = 50,
-            y = 50
-        },
-
-        min = {
-            x = -50,
-            y = -50
-        }
+        y = 0
     },
 
     control = {
         left = "a",
         right = "d",
         up = "w",
-        down = "s"
+        down = "s",
+
+        delta = {
+            x = 450,
+            y = 450
+        },
+
+        max = {
+            x = 150,
+            y = 150
+        },
+
+        min = {
+            x = -150,
+            y = -150
+        },
+
+        decay = {
+            x = 0.95,
+            y = 0.95
+        }
     },
 
     sprite = {
@@ -49,5 +54,19 @@ local player = {
         }
     }
 }
+
+--Updates the clip for the sprite according to direction of movement
+function player.sprite.clip:update()
+    local leanLeft = interface.isKeyPressed("a")
+    local leanRight = interface.isKeyPressed("d")
+
+    if leanLeft and not leanRight then
+        self.left = 0
+    elseif leanRight and not leanLeft then
+        self.left = 68
+    else
+        self.left = 34
+    end
+end
 
 return player

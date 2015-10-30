@@ -3,11 +3,16 @@
 local controlSystem = tiny.processingSystem()
 controlSystem.filter = tiny.requireAll("position", "size", "velocity", "control")
 
-local function limitVelocity(velocity)
-    velocity.x = math.max(velocity.x, velocity.min.x)
-    velocity.x = math.min(velocity.x, velocity.max.x)
-    velocity.y = math.max(velocity.y, velocity.min.y)
-    velocity.y = math.min(velocity.y, velocity.max.y)
+local function limitVelocity(velocity, control)
+    velocity.x = math.max(velocity.x, control.min.x)
+    velocity.x = math.min(velocity.x, control.max.x)
+    velocity.y = math.max(velocity.y, control.min.y)
+    velocity.y = math.min(velocity.y, control.max.y)
+end
+
+local function decayVelocity(velocity, control)
+    velocity.x = control.decay.x * velocity.x
+    velocity.y = control.decay.y * velocity.y
 end
 
 local function limitPosition(position, size)
@@ -20,22 +25,23 @@ end
 
 function controlSystem:process(e, dt)
     if(interface.isKeyPressed(e.control.left)) then
-        e.velocity.x = e.velocity.x - (e.velocity.delta.x * dt) 
+        e.velocity.x = e.velocity.x - (e.control.delta.x * dt) 
     end
 
     if(interface.isKeyPressed(e.control.right)) then
-        e.velocity.x = e.velocity.x + (e.velocity.delta.x * dt)
+        e.velocity.x = e.velocity.x + (e.control.delta.x * dt)
     end
 
     if(interface.isKeyPressed(e.control.up)) then
-        e.velocity.y = e.velocity.y - (e.velocity.delta.y * dt)
+        e.velocity.y = e.velocity.y - (e.control.delta.y * dt)
     end
 
     if(interface.isKeyPressed(e.control.down)) then
-        e.velocity.y = e.velocity.y + (e.velocity.delta.y * dt)
+        e.velocity.y = e.velocity.y + (e.control.delta.y * dt)
     end
     
-    limitVelocity(e.velocity)
+    limitVelocity(e.velocity, e.control)
+    decayVelocity(e.velocity, e.control)
     limitPosition(e.position, e.size)
 end
 

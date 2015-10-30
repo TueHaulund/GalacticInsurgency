@@ -4,19 +4,27 @@ local renderSystem = tiny.processingSystem()
 renderSystem.filter = tiny.requireAll("position", tiny.requireAny("sprite", "shape"))
 
 local function drawSprite(e)
+    local clip = e.sprite.clip
+    if clip.update ~= nil then
+        clip:update()
+        interface.setSpriteClip(e.sprite.identifier, clip.left, clip.top, clip.width, clip.height)
+    end
+
     interface.setSpritePosition(e.sprite.identifier, e.position.x, e.position.y)
     interface.drawSprite(e.sprite.identifier)
 end
 
 local function drawShape(e)
-
+    --TODO: Implement interface for drawing shapes
 end
 
 function renderSystem:onAdd(e)
     if(e.sprite ~= nil) then
-        local s = e.sprite
-        interface.loadSprite(s.identifier, s.path)
-        interface.setSpriteClip(s.identifier, s.clip.left, s.clip.top, s.clip.width, s.clip.height)
+        local sprite = e.sprite
+        local clip = sprite.clip
+
+        interface.loadSprite(sprite.identifier, sprite.path)
+        interface.setSpriteClip(sprite.identifier, clip.left, clip.top, clip.width, clip.height)
     end
 end
 
