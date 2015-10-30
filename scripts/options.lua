@@ -1,6 +1,6 @@
 --options.lua
 
-options = {
+local options = {
     video = {
         w = 800,
         h = 600,
@@ -10,3 +10,5 @@ options = {
 
     title = "Interceptor2D"
 }
+
+return options

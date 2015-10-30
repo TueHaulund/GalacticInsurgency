@@ -1,6 +1,6 @@
 --player.lua
 
-player = {
+local player = {
     position = {
         x = 100,
         y = 100
@@ -14,9 +14,21 @@ player = {
     velocity = {
         x = 0,
         y = 0,
-        delta = {x = 40, y = 40},
-        max = {x = 50, y = 50},
-        min = {x = -50, y = -50}
+
+        delta = {
+            x = 40,
+            y = 40
+        },
+
+        max = {
+            x = 50,
+            y = 50
+        },
+
+        min = {
+            x = -50,
+            y = -50
+        }
     },
 
     control = {
@@ -29,6 +41,13 @@ player = {
     sprite = {
         path = "data/sprites/player.tga",
         identifier = "player_ship",
-        clip = {left = 34, top = 0, width = 34, height = 26}
+        clip = {
+            left = 34,
+            top = 0,
+            width = 34,
+            height = 26
+        }
     }
 }
+
+return player

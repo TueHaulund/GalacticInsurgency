@@ -11,7 +11,7 @@ void RenderState::WindowInterface(sel::State &p_lua_state, sf::RenderWindow &p_w
 {
     auto lua_interface = p_lua_state["interface"];
     
-    lua_interface["create_window"] = [&p_window] (int p_w, int p_h, int p_bpp, int p_fps, const std::string &p_title) -> void
+    lua_interface["createWindow"] = [&p_window] (int p_w, int p_h, int p_bpp, int p_fps, const std::string &p_title) -> void
     {
         //Check for negative values - no support for unsigned types in Selene
         if(p_w < 0 || p_h < 0 || p_bpp < 0 || p_fps < 0)
@@ -23,13 +23,13 @@ void RenderState::WindowInterface(sel::State &p_lua_state, sf::RenderWindow &p_w
         return;
     };
 
-    lua_interface["close_window"] = [&p_window] () -> void
+    lua_interface["closeWindow"] = [&p_window] () -> void
     {
         p_window.close();
         return;
     };
 
-    lua_interface["resize_window"] = [&p_window] (int p_w, int p_h) -> void
+    lua_interface["resizeWindow"] = [&p_window] (int p_w, int p_h) -> void
     {
         //Check for negative values - no support for unsigned types in Selene
         if(p_w < 0 || p_h < 0)
@@ -50,7 +50,7 @@ void RenderState::SpriteInterface(sel::State &p_lua_state, sf::RenderWindow &p_w
         return m_spritemap.find(p_identifier) != m_spritemap.end();
     };
 
-    lua_interface["load_sprite"] = [this, map_contains] (const std::string &p_identifier, const std::string &p_path) -> void
+    lua_interface["loadSprite"] = [this, map_contains] (const std::string &p_identifier, const std::string &p_path) -> void
     {
         Resource<sf::Texture> texture(p_path, LoadTexture);
 
@@ -62,13 +62,13 @@ void RenderState::SpriteInterface(sel::State &p_lua_state, sf::RenderWindow &p_w
         return;
     };
 
-    lua_interface["clear_sprite"] = [this] (const std::string &p_identifier) -> void
+    lua_interface["clearSprite"] = [this] (const std::string &p_identifier) -> void
     {
         m_spritemap.erase(p_identifier);
         return;
     };
 
-    lua_interface["set_sprite_position"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_x, lua_Number p_y) -> void
+    lua_interface["setSpritePosition"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_x, lua_Number p_y) -> void
     {
         if(map_contains(p_identifier))
             m_spritemap.at(p_identifier)->setPosition(static_cast<float>(p_x), static_cast<float>(p_y));
@@ -76,7 +76,7 @@ void RenderState::SpriteInterface(sel::State &p_lua_state, sf::RenderWindow &p_w
         return;
     };
 
-    lua_interface["set_sprite_clip"] = [this, map_contains] (const std::string &p_identifier, int p_l, int p_t, int p_w, int p_h) -> void
+    lua_interface["setSpriteClip"] = [this, map_contains] (const std::string &p_identifier, int p_l, int p_t, int p_w, int p_h) -> void
     {
         if(map_contains(p_identifier))
             m_spritemap.at(p_identifier)->setTextureRect(sf::IntRect(p_l, p_t, p_w, p_h));
@@ -84,7 +84,7 @@ void RenderState::SpriteInterface(sel::State &p_lua_state, sf::RenderWindow &p_w
         return;
     };
 
-    lua_interface["draw_sprite"] = [this, map_contains, &p_window] (const std::string &p_identifier) -> void
+    lua_interface["drawSprite"] = [this, map_contains, &p_window] (const std::string &p_identifier) -> void
     {
         if(map_contains(p_identifier))
             p_window.draw(*m_spritemap.at(p_identifier));

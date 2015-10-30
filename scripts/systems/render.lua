@@ -1,35 +1,37 @@
 --render.lua
 
-renderSystem = tiny.processingSystem()
+local renderSystem = tiny.processingSystem()
 renderSystem.filter = tiny.requireAll("position", tiny.requireAny("sprite", "shape"))
 
-local draw_sprite = function(e)
-    interface.set_sprite_position(e.sprite.identifier, e.position.x, e.position.y)
-    interface.draw_sprite(e.sprite.identifier)
+local function drawSprite(e)
+    interface.setSpritePosition(e.sprite.identifier, e.position.x, e.position.y)
+    interface.drawSprite(e.sprite.identifier)
 end
 
-local draw_shape = function(e)
+local function drawShape(e)
 
 end
 
 function renderSystem:onAdd(e)
     if(e.sprite ~= nil) then
         local s = e.sprite
-        interface.load_sprite(s.identifier, s.path)
-        interface.set_sprite_clip(s.identifier, s.clip.left, s.clip.top, s.clip.width, s.clip.height)
+        interface.loadSprite(s.identifier, s.path)
+        interface.setSpriteClip(s.identifier, s.clip.left, s.clip.top, s.clip.width, s.clip.height)
     end
 end
 
 function renderSystem:onRemove(e)
     if(e.sprite ~= nil) then
-        interface.clear_sprite(e.sprite.identifier)
+        interface.clearSprite(e.sprite.identifier)
     end
 end
 
 function renderSystem:process(e, dt)
     if(e.sprite ~= nil) then
-        draw_sprite(e)
+        drawSprite(e)
     elseif (e.shape ~= nil) then
-        draw_shape(e)
+        drawShape(e)
     end
 end
+
+return renderSystem

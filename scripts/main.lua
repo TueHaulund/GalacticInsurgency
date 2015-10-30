@@ -3,44 +3,11 @@
 --Global C++ interface object
 interface = {}
 
-require("scripts/options")
-
---Import tiny-ecs
-tiny = require("scripts/tiny")
-
---Import systems and entities
-require("scripts/systems/movement")
-require("scripts/systems/control")
-require("scripts/systems/render")
-require("scripts/player")
-
---Set up world and systems
-local world = tiny.world()
-
---Setup function, called from C++
-function interface.setup()
-    tiny.addEntity(world, player)
-
-    tiny.addSystem(world, controlSystem)
-    tiny.addSystem(world, movementSystem)
-    tiny.addSystem(world, renderSystem)
-
-    tiny.refresh(world)
-    tiny.setSystemIndex(world, controlSystem, 1)
-    tiny.setSystemIndex(world, movementSystem, 2)
-    tiny.setSystemIndex(world, renderSystem, 3)
-
-    local video = options.video
-    interface.create_window(video.w, video.h, video.bpp, video.fps, options.title);
-end
-
---Main update function, called from C++
-function interface.update(dt)
-    tiny.update(world, dt)
-end
+--Global options object
+options = require "scripts/options"
 
 --Table of actions to take on specific events
-local event_actions = {
+local eventActions = {
     closed = function()
         interface.exit()
     end,
@@ -48,29 +15,43 @@ local event_actions = {
     resized = function(w, h)
         options.video.h = h
         options.video.w = w
-        interface.resize_window(w, h)
+        interface.resizeWindow(w, h)
     end,
 
-    lost_focus = function()
-
-    end,
-
-    gained_focus = function()
+    lostFocus = function()
 
     end,
 
-    key_pressed = function(k)
+    gainedFocus = function()
 
     end,
 
-    key_released = function(k)
+    keyPressed = function(k)
+
+    end,
+
+    keyReleased = function(k)
 
     end
 }
 
 --Event handler, called from C++
-function interface.handle_event(event_type, ...)
-    if type(event_actions[event_type]) ~= nil then
-        event_actions[event_type](unpack({...}))
+function interface.handleEvent(eventType, ...)
+    if type(eventActions[eventType]) ~= nil then
+        eventActions[eventType](unpack({...}))
     end
+end
+
+local game = require "scripts/game"
+
+--Setup function, called from C++
+function interface.setup()
+    local video = options.video
+    interface.createWindow(video.w, video.h, video.bpp, video.fps, options.title)
+    game.setupWorld()
+end
+
+--Main update function, called from C++
+function interface.update(dt)
+    game.updateWorld(dt)
 end

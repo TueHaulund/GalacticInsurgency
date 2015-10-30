@@ -17,7 +17,7 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
     auto lua_interface = m_lua_state["interface"];
 
     //Inject key-polling function into Lua state
-    lua_interface["is_key_pressed"] = [this] (const std::string &p_key) -> bool
+    lua_interface["isKeyPressed"] = [this] (const std::string &p_key) -> bool
     {
         if(m_keymap.find(p_key) != m_keymap.end())
             return sf::Keyboard::isKeyPressed(m_keymap.at(p_key));
@@ -130,7 +130,7 @@ void GameState::BuildKeymap()
 
 void GameState::BuildEventmap()
 {
-    auto lua_handle_event = m_lua_state["interface"]["handle_event"];
+    auto lua_handle_event = m_lua_state["interface"]["handleEvent"];
 
     m_eventmap[sf::Event::Closed] = [lua_handle_event] (const sf::Event &e) -> void
     {
@@ -146,13 +146,13 @@ void GameState::BuildEventmap()
 
     m_eventmap[sf::Event::LostFocus] = [lua_handle_event] (const sf::Event &e) -> void
     {
-        lua_handle_event("lost_focus");
+        lua_handle_event("lostFocus");
         return;
     };
 
     m_eventmap[sf::Event::GainedFocus] = [lua_handle_event] (const sf::Event &e) -> void
     {
-        lua_handle_event("gained_focus");
+        lua_handle_event("gainedFocus");
         return;
     };
 
@@ -160,7 +160,7 @@ void GameState::BuildEventmap()
     {
         sf::Keyboard::Key k = e.key.code;
         if(m_keymap_rev.find(k) != m_keymap_rev.end())
-            lua_handle_event("key_pressed", m_keymap_rev.at(k));
+            lua_handle_event("keyPressed", m_keymap_rev.at(k));
         return;
     };
 
@@ -168,7 +168,7 @@ void GameState::BuildEventmap()
     {
         sf::Keyboard::Key k = e.key.code;
         if(m_keymap_rev.find(k) != m_keymap_rev.end())
-            lua_handle_event("key_released", m_keymap_rev.at(k));
+            lua_handle_event("keyReleased", m_keymap_rev.at(k));
         return;
     };
     

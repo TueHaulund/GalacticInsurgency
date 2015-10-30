@@ -15,7 +15,7 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return m_soundmap.find(p_identifier) != m_soundmap.end();
     };
 
-    lua_interface["load_sound"] = [this, map_contains] (const std::string &p_identifier, const std::string &p_path) -> void
+    lua_interface["loadSound"] = [this, map_contains] (const std::string &p_identifier, const std::string &p_path) -> void
     {
         Resource<sf::SoundBuffer> buffer(p_path, LoadSound);
 
@@ -27,13 +27,13 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["clear_sound"] = [this] (const std::string &p_identifier) -> void
+    lua_interface["clearSound"] = [this] (const std::string &p_identifier) -> void
     {
         m_soundmap.erase(p_identifier);
         return;
     };
 
-    lua_interface["play_sound"] = [this, map_contains] (const std::string &p_identifier) -> void
+    lua_interface["playSound"] = [this, map_contains] (const std::string &p_identifier) -> void
     { 
         if(map_contains(p_identifier))
             m_soundmap.at(p_identifier)->play();
@@ -41,7 +41,7 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["pause_sound"] = [this, map_contains] (const std::string &p_identifier) -> void
+    lua_interface["pauseSound"] = [this, map_contains] (const std::string &p_identifier) -> void
     {
         if(map_contains(p_identifier))
             m_soundmap.at(p_identifier)->pause();
@@ -49,7 +49,7 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["stop_sound"] = [this, map_contains] (const std::string &p_identifier) -> void
+    lua_interface["stopSound"] = [this, map_contains] (const std::string &p_identifier) -> void
     {
         if(map_contains(p_identifier))
             m_soundmap.at(p_identifier)->stop();
@@ -57,7 +57,7 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["set_sound_volume"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_volume) -> void
+    lua_interface["setSoundVolume"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_volume) -> void
     {
         if(map_contains(p_identifier))
             m_soundmap.at(p_identifier)->setVolume(static_cast<float>(p_volume));
@@ -65,7 +65,7 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["set_sound_loop"] = [this, map_contains] (const std::string &p_identifier, bool p_loop) -> void
+    lua_interface["setSoundLoop"] = [this, map_contains] (const std::string &p_identifier, bool p_loop) -> void
     {
         if(map_contains(p_identifier))
             m_soundmap.at(p_identifier)->setLoop(p_loop);
@@ -84,7 +84,7 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return m_musicmap.find(p_identifier) != m_musicmap.end();
     };
 
-    lua_interface["load_music"] = [this] (const std::string &p_identifier, const std::string &p_path) -> void
+    lua_interface["loadMusic"] = [this] (const std::string &p_identifier, const std::string &p_path) -> void
     {
         m_musicmap[p_identifier] = std::make_unique<sf::Music>();
         if(!m_musicmap[p_identifier]->openFromFile(p_path))
@@ -93,13 +93,13 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["clear_music"] = [this] (const std::string &p_identifier) -> void
+    lua_interface["clearMusic"] = [this] (const std::string &p_identifier) -> void
     {
         m_musicmap.erase(p_identifier);
         return;
     };
 
-    lua_interface["play_music"] = [this, map_contains] (const std::string &p_identifier) -> void
+    lua_interface["playMusic"] = [this, map_contains] (const std::string &p_identifier) -> void
     { 
         if(map_contains(p_identifier))
             m_musicmap.at(p_identifier)->play();
@@ -107,7 +107,7 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["pause_music"] = [this, map_contains] (const std::string &p_identifier) -> void
+    lua_interface["pauseMusic"] = [this, map_contains] (const std::string &p_identifier) -> void
     {
         if(map_contains(p_identifier))
             m_musicmap.at(p_identifier)->pause();
@@ -115,7 +115,7 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["stop_music"] = [this, map_contains] (const std::string &p_identifier) -> void
+    lua_interface["stopMusic"] = [this, map_contains] (const std::string &p_identifier) -> void
     {
         if(map_contains(p_identifier))
             m_musicmap.at(p_identifier)->stop();
@@ -123,7 +123,7 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["set_music_volume"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_volume) -> void
+    lua_interface["setMusicVolume"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_volume) -> void
     {
 	    if(map_contains(p_identifier))
             m_musicmap.at(p_identifier)->setVolume(static_cast<float>(p_volume));
@@ -131,7 +131,7 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["set_music_loop"] = [this, map_contains] (const std::string &p_identifier, bool p_loop) -> void
+    lua_interface["setMusicLoop"] = [this, map_contains] (const std::string &p_identifier, bool p_loop) -> void
     {
         if(map_contains(p_identifier))
             m_musicmap.at(p_identifier)->setLoop(p_loop);
