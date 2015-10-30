@@ -29,6 +29,7 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
     lua_interface["exit"] = [this] () -> void
     {
         m_active = false;
+        return;
     };
 
     //Inject functions for rendering and playing sounds/music
@@ -161,6 +162,7 @@ void GameState::BuildEventmap()
         sf::Keyboard::Key k = e.key.code;
         if(m_keymap_rev.find(k) != m_keymap_rev.end())
             lua_handle_event("keyPressed", m_keymap_rev.at(k));
+
         return;
     };
 
@@ -169,6 +171,7 @@ void GameState::BuildEventmap()
         sf::Keyboard::Key k = e.key.code;
         if(m_keymap_rev.find(k) != m_keymap_rev.end())
             lua_handle_event("keyReleased", m_keymap_rev.at(k));
+
         return;
     };
     

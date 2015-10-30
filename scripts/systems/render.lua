@@ -19,7 +19,7 @@ local function drawShape(e)
 end
 
 function renderSystem:onAdd(e)
-    if(e.sprite ~= nil) then
+    if e.sprite ~= nil then
         local sprite = e.sprite
         local clip = sprite.clip
 
@@ -29,15 +29,15 @@ function renderSystem:onAdd(e)
 end
 
 function renderSystem:onRemove(e)
-    if(e.sprite ~= nil) then
+    if e.sprite ~= nil then
         interface.clearSprite(e.sprite.identifier)
     end
 end
 
 function renderSystem:process(e, dt)
-    if(e.sprite ~= nil) then
+    if e.sprite ~= nil then
         drawSprite(e)
-    elseif (e.shape ~= nil) then
+    elseif e.shape ~= nil then
         drawShape(e)
     end
 end

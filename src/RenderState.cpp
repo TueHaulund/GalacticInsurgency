@@ -76,6 +76,14 @@ void RenderState::SpriteInterface(sel::State &p_lua_state, sf::RenderWindow &p_w
         return;
     };
 
+    lua_interface["setSpriteRotation"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_deg) -> void
+    {
+        if(map_contains(p_identifier))
+            m_spritemap.at(p_identifier)->setRotation(static_cast<float>(p_deg));
+
+        return;
+    };
+
     lua_interface["setSpriteClip"] = [this, map_contains] (const std::string &p_identifier, int p_l, int p_t, int p_w, int p_h) -> void
     {
         if(map_contains(p_identifier))
