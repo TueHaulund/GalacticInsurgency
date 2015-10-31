@@ -25,7 +25,10 @@ local function drawSprite(e)
 end
 
 local function drawShape(e)
-    --TODO: Implement interface for drawing shapes
+    local id = e.shape.identifier
+
+    interface.setShapePosition(id, e.position.x, e.position.y)
+    interface.drawShape(id)
 end
 
 function renderSystem:onAdd(e)
@@ -39,7 +42,17 @@ function renderSystem:onAdd(e)
         interface.setSpriteClip(id, clip.left, clip.top, clip.width, clip.height)
         interface.setSpriteScale(id, scale.x, scale.y)
     elseif e.shape ~= nil then
-        --Setup shape
+        local shape = e.shape
+        local id = shape.identifier
+        local fill = shape.fill
+
+        if shape.rectangle ~= nil then
+            interface.createRectangle(id, shape.rectangle.w, shape.rectangle.h)
+        elseif shape.circle ~= nil then
+            interface.createCircle(id, shape.circle.radius, shape.circle.points)
+        end
+
+        interface.setShapeFillColor(id, fill.r, fill.g, fill.b, fill.a)
     end
 end
 
@@ -47,7 +60,7 @@ function renderSystem:onRemove(e)
     if e.sprite ~= nil then
         interface.removeSprite(e.sprite.identifier)
     elseif e.shape ~= nil then
-        --Remove shape
+        interface.removeShape(e.shape.identifier)
     end
 end
 

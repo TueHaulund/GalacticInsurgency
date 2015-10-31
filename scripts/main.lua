@@ -6,6 +6,8 @@ interface = {}
 --Global options object
 options = require "scripts/options"
 
+local game = require "scripts/game"
+
 --Table of actions to take on specific events
 local eventActions = {
     closed = function()
@@ -36,7 +38,7 @@ local eventActions = {
         end
 
         if k == "p" then
-            options.pause = not options.pause
+            game.togglePause()
         end
     end
 }
@@ -48,10 +50,9 @@ function interface.handleEvent(eventType, ...)
     end
 end
 
-local game = require "scripts/game"
-
 --Setup function, called from C++
 function interface.setup()
+    math.randomseed(os.time())
     local video = options.video
     interface.createWindow(video.w, video.h, video.bpp, video.fps, options.title)
     game.setupWorld()

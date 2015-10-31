@@ -45,7 +45,7 @@ local player = {
 
     sprite = {
         path = "data/sprites/player.tga",
-        identifier = "player_ship",
+        identifier = "playerShip",
         z = 10,
 
         scale = {

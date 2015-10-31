@@ -4,6 +4,7 @@ void RenderState::operator()(sel::State &p_lua_state, sf::RenderWindow &p_window
 {
     WindowInterface(p_lua_state, p_window);
     SpriteInterface(p_lua_state, p_window);
+    ShapeInterface(p_lua_state, p_window);
     return;
 }
 
@@ -110,6 +111,105 @@ void RenderState::SpriteInterface(sel::State &p_lua_state, sf::RenderWindow &p_w
     {
         if(map_contains(p_identifier))
             p_window.draw(*m_spritemap.at(p_identifier));
+
+        return;
+    };
+
+    return;
+}
+
+void RenderState::ShapeInterface(sel::State &p_state, sf::RenderWindow &p_window)
+{
+    auto lua_interface = p_state["interface"];
+    auto map_contains = [this] (const std::string &p_identifier) -> bool
+    {
+        return m_shapemap.find(p_identifier) != m_shapemap.end();
+    };
+
+    lua_interface["createCircle"] = [this] (const std::string &p_identifier, lua_Number p_radius, int p_count) -> void
+    {
+        m_shapemap[p_identifier] = std::make_unique<sf::CircleShape>(p_radius, p_count);
+        return;
+    };
+
+    lua_interface["createRectangle"] = [this] (const std::string &p_identifier, lua_Number p_w, lua_Number p_h) -> void
+    {
+        m_shapemap[p_identifier] = std::make_unique<sf::RectangleShape>(sf::Vector2f(static_cast<float>(p_w), static_cast<float>(p_h)));
+        return;
+    };
+
+    lua_interface["removeShape"] = [this] (const std::string &p_identifier) -> void
+    {
+        m_shapemap.erase(p_identifier);
+        return;
+    };
+
+    lua_interface["clearShapes"] = [this] () -> void
+    {
+        m_shapemap.clear();
+        return;
+    };
+
+    lua_interface["setShapePosition"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_x, lua_Number p_y) -> void
+    {
+        if(map_contains(p_identifier))
+            m_shapemap.at(p_identifier)->setPosition(static_cast<float>(p_x), static_cast<float>(p_y));
+
+        return;
+    };
+
+    lua_interface["setShapeRotation"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_deg) -> void
+    {
+        if(map_contains(p_identifier))
+            m_shapemap.at(p_identifier)->setRotation(static_cast<float>(p_deg));
+
+        return;
+    };
+
+    lua_interface["setShapeScale"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_x, lua_Number p_y) -> void
+    {
+        if(map_contains(p_identifier))
+            m_shapemap.at(p_identifier)->setScale(static_cast<float>(p_x), static_cast<float>(p_y));
+
+        return;
+    };
+
+    lua_interface["setShapeOutlineThickness"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_thickness) -> void
+    {
+        if(map_contains(p_identifier))
+            m_shapemap.at(p_identifier)->setOutlineThickness(static_cast<float>(p_thickness));
+
+        return;
+    };
+
+    lua_interface["setShapeOutlineColor"] = [this, map_contains] (const std::string &p_identifier, int p_r, int p_g, int p_b, int p_a) -> void
+    {
+        //Check for invalid values, no support for 8-bit types in Selene
+        if(p_r < 0 || p_r > 255 || p_g < 0 || p_g > 255 || p_b < 0 || p_b > 255 || p_a < 0 || p_a > 255)
+            throw std::runtime_error("Invalid color requested");
+
+        if(map_contains(p_identifier))
+            m_shapemap.at(p_identifier)->setOutlineColor(sf::Color(p_r, p_g, p_b, p_a));
+
+        return;
+    };
+
+    lua_interface["setShapeFillColor"] = [this, map_contains] (const std::string &p_identifier, int p_r, int p_g, int p_b, int p_a) -> void
+    {
+        //Check for invalid values, no support for 8-bit types in Selene
+        if(p_r < 0 || p_r > 255 || p_g < 0 || p_g > 255 || p_b < 0 || p_b > 255 || p_a < 0 || p_a > 255)
+            throw std::runtime_error("Invalid color requested");
+
+        if(map_contains(p_identifier))
+            m_shapemap.at(p_identifier)->setFillColor(sf::Color(p_r, p_g, p_b, p_a));
+
+        return;
+    };
+
+    lua_interface["drawShape"] = [this, map_contains, &p_window] (const std::string &p_identifier) -> void
+    {
+        if(map_contains(p_identifier))
+            p_window.draw(*m_shapemap.at(p_identifier));
 
         return;
     };

@@ -34,6 +34,10 @@ local function updateWorld(dt)
     end
 end
 
+local function togglePause()
+    options.pause = not options.pause
+end
+
 local function clearWorld()
     tiny.clearEntities(world)
     tiny.clearSystems(world)
@@ -42,5 +46,6 @@ end
 return {
     setupWorld = setupWorld,
     updateWorld = updateWorld,
+    togglePause = togglePause,
     clearWorld = clearWorld
 }
