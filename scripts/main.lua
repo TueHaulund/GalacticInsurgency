@@ -55,3 +55,9 @@ end
 function interface.update(dt)
     game.updateWorld(dt)
 end
+
+--Teardown function, called from C++
+function interface.tearDown()
+    game.clearWorld()
+    interface.closeWindow()
+end

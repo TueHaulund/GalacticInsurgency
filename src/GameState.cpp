@@ -36,10 +36,16 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
     m_renderstate(m_lua_state, m_window);
     m_audiostate(m_lua_state);
 
-    //All interface functions in place, tell  Lua to setup the game world
+    //All interface functions in place, tell Lua to setup the game world
     lua_interface["setup"]();
 
     return;
+}
+
+GameState::~GameState()
+{
+    //Tell Lua to clean up the game world
+    m_lua_state["interface"]["tearDown"]();
 }
 
 bool GameState::IsActive() const

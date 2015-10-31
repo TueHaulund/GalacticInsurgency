@@ -24,7 +24,13 @@ local function updateWorld(dt)
     tiny.update(world, dt)
 end
 
+local function clearWorld()
+    tiny.clearEntities(world)
+    tiny.clearSystems(world)
+end
+
 return {
     setupWorld = setupWorld,
-    updateWorld = updateWorld
+    updateWorld = updateWorld,
+    clearWorld = clearWorld
 }
