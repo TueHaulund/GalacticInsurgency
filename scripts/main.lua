@@ -34,6 +34,10 @@ local eventActions = {
         if k == "escape" then
             interface.exit()
         end
+
+        if k == "p" then
+            options.pause = not options.pause
+        end
     end
 }
 

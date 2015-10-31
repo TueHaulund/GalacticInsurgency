@@ -64,7 +64,7 @@ local player = {
 
 --Updates the clip for the sprite according to direction of movement
 function player.sprite.clip:update()
-    if options.focus then
+    if options.focus and not options.pause then
         local leanLeft = interface.isKeyPressed("a")
         local leanRight = interface.isKeyPressed("d")
 

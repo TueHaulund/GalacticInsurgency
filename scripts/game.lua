@@ -22,8 +22,16 @@ local function setupWorld()
     tiny.setSystemIndex(world, systems.renderSystem, 4)
 end
 
+local function isRenderSystem(_, system)
+    return system == systems.renderSystem
+end
+
 local function updateWorld(dt)
-    tiny.update(world, dt)
+    if not options.pause then
+        tiny.update(world, dt)
+    else
+        tiny.update(world, dt, isRenderSystem)
+    end
 end
 
 local function clearWorld()

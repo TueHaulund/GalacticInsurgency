@@ -9,7 +9,8 @@ local options = {
     },
 
     title = "Interceptor2D",
-    focus = true
+    focus = true,
+    pause = false
 }
 
 return options
