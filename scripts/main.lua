@@ -19,11 +19,11 @@ local eventActions = {
     end,
 
     lostFocus = function()
-
+        options.focus = false
     end,
 
     gainedFocus = function()
-
+        options.focus = true
     end,
 
     keyPressed = function(k)

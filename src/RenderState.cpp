@@ -98,6 +98,14 @@ void RenderState::SpriteInterface(sel::State &p_lua_state, sf::RenderWindow &p_w
         return;
     };
 
+    lua_interface["setSpriteScale"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_x, lua_Number p_y) -> void
+    {
+        if(map_contains(p_identifier))
+            m_spritemap.at(p_identifier)->setScale(static_cast<float>(p_x), static_cast<float>(p_y));
+
+        return;
+    };
+
     lua_interface["drawSprite"] = [this, map_contains, &p_window] (const std::string &p_identifier) -> void
     {
         if(map_contains(p_identifier))

@@ -46,6 +46,13 @@ local player = {
     sprite = {
         path = "data/sprites/player.tga",
         identifier = "player_ship",
+        z = 10,
+
+        scale = {
+            x = 1,
+            y = 1
+        },
+
         clip = {
             left = 34,
             top = 0,
@@ -57,15 +64,17 @@ local player = {
 
 --Updates the clip for the sprite according to direction of movement
 function player.sprite.clip:update()
-    local leanLeft = interface.isKeyPressed("a")
-    local leanRight = interface.isKeyPressed("d")
+    if options.focus then
+        local leanLeft = interface.isKeyPressed("a")
+        local leanRight = interface.isKeyPressed("d")
 
-    if leanLeft and not leanRight then
-        self.left = 0
-    elseif leanRight and not leanLeft then
-        self.left = 68
-    else
-        self.left = 34
+        if leanLeft and not leanRight then
+            self.left = 0
+        elseif leanRight and not leanLeft then
+            self.left = 68
+        else
+            self.left = 34
+        end
     end
 end
 

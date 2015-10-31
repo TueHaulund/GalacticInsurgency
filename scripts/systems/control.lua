@@ -24,25 +24,27 @@ local function limitPosition(position, size)
 end
 
 function controlSystem:process(e, dt)
-    if interface.isKeyPressed(e.control.left) then
-        e.velocity.x = e.velocity.x - (e.control.delta.x * dt) 
-    end
+    if options.focus then
+        if interface.isKeyPressed(e.control.left) then
+            e.velocity.x = e.velocity.x - (e.control.delta.x * dt) 
+        end
 
-    if interface.isKeyPressed(e.control.right) then
-        e.velocity.x = e.velocity.x + (e.control.delta.x * dt)
-    end
+        if interface.isKeyPressed(e.control.right) then
+            e.velocity.x = e.velocity.x + (e.control.delta.x * dt)
+        end
 
-    if interface.isKeyPressed(e.control.up) then
-        e.velocity.y = e.velocity.y - (e.control.delta.y * dt)
-    end
+        if interface.isKeyPressed(e.control.up) then
+            e.velocity.y = e.velocity.y - (e.control.delta.y * dt)
+        end
 
-    if interface.isKeyPressed(e.control.down) then
-        e.velocity.y = e.velocity.y + (e.control.delta.y * dt)
-    end
+        if interface.isKeyPressed(e.control.down) then
+            e.velocity.y = e.velocity.y + (e.control.delta.y * dt)
+        end
     
-    limitVelocity(e.velocity, e.control)
-    decayVelocity(e.velocity, e.control)
-    limitPosition(e.position, e.size)
+        limitVelocity(e.velocity, e.control)
+        decayVelocity(e.velocity, e.control)
+        limitPosition(e.position, e.size)
+    end
 end
 
 return controlSystem

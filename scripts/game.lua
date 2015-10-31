@@ -12,12 +12,14 @@ local function setupWorld()
     tiny.addEntity(world, player)
     tiny.addSystem(world, systems.controlSystem)
     tiny.addSystem(world, systems.movementSystem)
+    tiny.addSystem(world, systems.backgroundSystem)
     tiny.addSystem(world, systems.renderSystem)
     tiny.refresh(world)
 
     tiny.setSystemIndex(world, systems.controlSystem, 1)
     tiny.setSystemIndex(world, systems.movementSystem, 2)
-    tiny.setSystemIndex(world, systems.renderSystem, 3)
+    tiny.setSystemIndex(world, systems.backgroundSystem, 3)
+    tiny.setSystemIndex(world, systems.renderSystem, 4)
 end
 
 local function updateWorld(dt)
