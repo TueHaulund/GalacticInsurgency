@@ -31,7 +31,9 @@ local eventActions = {
     end,
 
     keyReleased = function(k)
-
+        if k == "escape" then
+            interface.exit()
+        end
     end
 }
 
@@ -59,5 +61,8 @@ end
 --Teardown function, called from C++
 function interface.tearDown()
     game.clearWorld()
+    interface.clearSprites()
+    interface.clearSounds()
+    interface.clearMusic()
     interface.closeWindow()
 end

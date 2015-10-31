@@ -62,9 +62,15 @@ void RenderState::SpriteInterface(sel::State &p_lua_state, sf::RenderWindow &p_w
         return;
     };
 
-    lua_interface["clearSprite"] = [this] (const std::string &p_identifier) -> void
+    lua_interface["removeSprite"] = [this] (const std::string &p_identifier) -> void
     {
         m_spritemap.erase(p_identifier);
+        return;
+    };
+
+    lua_interface["clearSprites"] = [this] () -> void
+    {
+        m_spritemap.clear();
         return;
     };
 

@@ -27,9 +27,15 @@ void AudioState::SoundInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["clearSound"] = [this] (const std::string &p_identifier) -> void
+    lua_interface["removeSound"] = [this] (const std::string &p_identifier) -> void
     {
         m_soundmap.erase(p_identifier);
+        return;
+    };
+
+    lua_interface["clearSounds"] = [this] () -> void
+    {
+        m_soundmap.clear();
         return;
     };
 
@@ -93,9 +99,15 @@ void AudioState::MusicInterface(sel::State &p_lua_state)
         return;
     };
 
-    lua_interface["clearMusic"] = [this] (const std::string &p_identifier) -> void
+    lua_interface["removeMusic"] = [this] (const std::string &p_identifier) -> void
     {
         m_musicmap.erase(p_identifier);
+        return;
+    };
+
+    lua_interface["clearMusic"] = [this] () -> void
+    {
+        m_musicmap.clear();
         return;
     };
 

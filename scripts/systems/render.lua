@@ -30,7 +30,7 @@ end
 
 function renderSystem:onRemove(e)
     if e.sprite ~= nil then
-        interface.clearSprite(e.sprite.identifier)
+        interface.removeSprite(e.sprite.identifier)
     end
 end
 
