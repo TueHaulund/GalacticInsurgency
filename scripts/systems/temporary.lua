@@ -2,6 +2,7 @@
 
 local temporarySystem = tiny.processingSystem()
 temporarySystem.filter = tiny.requireAll("temporary")
+temporarySystem.systemIndex = 5
 
 function temporarySystem:process(e, dt)
     e.temporary = e.temporary - dt

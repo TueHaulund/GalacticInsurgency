@@ -51,25 +51,40 @@ local player = {
         right = "d",
         up = "w",
         down = "s",
+        fire = "space"
+    },
 
-        delta = {
-            x = 450,
-            y = 450
+    player = {
+        movement = {
+            direction = {
+                left = false,
+                right = false
+            },
+
+            delta = {
+                x = 450,
+                y = 450
+            },
+
+            max = {
+                x = 200,
+                y = 200
+            },
+
+            min = {
+                x = -200,
+                y = -200
+            },
+
+            decay = {
+                x = 0.95,
+                y = 0.95
+            }
         },
 
-        max = {
-            x = 200,
-            y = 200
-        },
-
-        min = {
-            x = -200,
-            y = -200
-        },
-
-        decay = {
-            x = 0.95,
-            y = 0.95
+        offensive = {
+            cooldown = 2,
+            remaining = 0
         }
     },
 
@@ -100,19 +115,60 @@ local player = {
 }
 
 --Updates the clip for the sprite according to direction of movement
-function player.sprite.clip:update()
-    if options.focus and not options.pause then
-        local leanLeft = interface.isKeyPressed("a")
-        local leanRight = interface.isKeyPressed("d")
+function updateClip(e)
+    local leanLeft = e.player.movement.direction.left
+    local leanRight = e.player.movement.direction.right
 
-        if leanLeft and not leanRight then
-            self.left = 0
-        elseif leanRight and not leanLeft then
-            self.left = 68
-        else
-            self.left = 34
-        end
+    if leanLeft and not leanRight then
+        e.sprite.clip.left = 0
+    elseif leanRight and not leanLeft then
+        e.sprite.clip.left = 68
+    else
+        e.sprite.clip.left = 34
     end
 end
+
+player.sprite.clip.update = updateClip
+
+function fire(world, e, dt)
+    local offensive = e.player.offensive
+
+    if offensive.remaining <= 0 then
+        offensive.remaining = offensive.cooldown
+        tiny.addEntity(world, {
+            position = {
+                x = e.position.x + 10,
+                y = e.position.y + 10
+            },
+
+            velocity = {
+                x = 0,
+                y = -150
+            },
+
+            shape = {
+                identifier = "abe",
+                z = 2,
+                rectangle = {
+                    w = 2,
+                    h = 3
+                },
+
+                fill = {
+                    r = 0,
+                    g = 255,
+                    b = 0,
+                    a = 255
+                }
+            },
+
+            projectile = {
+                damage = 50
+            }
+        })
+    end
+end
+
+player.player.offensive.fire = fire
 
 return player

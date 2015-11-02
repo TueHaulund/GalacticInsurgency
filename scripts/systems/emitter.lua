@@ -2,6 +2,7 @@
 
 local emitterSystem = tiny.processingSystem()
 emitterSystem.filter = tiny.requireAll("position", "emitter")
+emitterSystem.systemIndex = 4
 
 local createParticle = require "scripts/particle"
 

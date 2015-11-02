@@ -2,6 +2,7 @@
 
 local renderSystem = tiny.sortedProcessingSystem()
 renderSystem.filter = tiny.requireAll("position", tiny.requireAny("sprite", "shape"))
+renderSystem.systemIndex = 7
 
 --Sort entities according to their z-index
 function renderSystem:compare(e1, e2)
@@ -16,7 +17,7 @@ local function drawSprite(e)
     local clip = e.sprite.clip
 
     if clip.update ~= nil then
-        clip:update()
+        clip.update(e)
         interface.setSpriteClip(id, clip.left, clip.top, clip.width, clip.height)
     end
 

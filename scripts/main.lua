@@ -70,6 +70,7 @@ end
 function interface.tearDown()
     game.clearWorld()
     interface.clearSprites()
+    interface.clearShapes()
     interface.clearSounds()
     interface.clearMusic()
     interface.closeWindow()

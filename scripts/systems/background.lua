@@ -2,6 +2,7 @@
 
 local backgroundSystem = tiny.processingSystem()
 backgroundSystem.filter = tiny.requireAll("position", "velocity", "background")
+backgroundSystem.systemIndex = 3
 
 local createStar = require "scripts/star"
 

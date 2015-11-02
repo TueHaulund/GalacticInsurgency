@@ -9,22 +9,17 @@ local systems = require "scripts/systems/systems"
 local player = require "scripts/player"
 
 local function setupWorld()
-    tiny.addEntity(world, player)
-    tiny.addSystem(world, systems.controlSystem)
-    tiny.addSystem(world, systems.movementSystem)
-    tiny.addSystem(world, systems.backgroundSystem)
-    tiny.addSystem(world, systems.emitterSystem)
-    tiny.addSystem(world, systems.temporarySystem)
-    tiny.addSystem(world, systems.renderSystem)
+    for _, system in pairs(systems) do
+        tiny.addSystem(world, system)
+    end
+
     tiny.refresh(world)
 
-    tiny.setSystemIndex(world, systems.controlSystem, 1)
-    tiny.setSystemIndex(world, systems.movementSystem, 2)
-    tiny.setSystemIndex(world, systems.backgroundSystem, 3)
-    tiny.setSystemIndex(world, systems.emitterSystem, 4)
-    tiny.setSystemIndex(world, systems.temporarySystem, 5)
-    tiny.setSystemIndex(world, systems.renderSystem, 6)
+    for _, system in pairs(systems) do
+        tiny.setSystemIndex(world, system, system.systemIndex)
+    end 
 
+    tiny.addEntity(world, player)
     tiny.addEntity(world, {
         position = {
             x = 200,
