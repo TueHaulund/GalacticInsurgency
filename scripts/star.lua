@@ -2,14 +2,14 @@
 
 local counter = 0
 
-local function createStar(y)
+local function createStar(initial)
     counter = counter + 1
-    parallaxLevel = math.random(10)
+    parallaxLevel = math.random(2, 10)
 
     return {
         position = {
-            x = math.random(options.video.w),
-            y = y
+            x = math.random(0, options.video.w),
+            y = initial and math.random(-50, options.video.h) or -50
         },
 
         velocity = {
@@ -20,9 +20,10 @@ local function createStar(y)
         shape = {
             identifier = "star"..counter,
             z = 0,
+
             rectangle = {
                 w = 1,
-                h = 6 / parallaxLevel
+                h = math.max(1, 6 / parallaxLevel)
             },
 
             fill = {

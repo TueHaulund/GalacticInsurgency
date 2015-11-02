@@ -8,9 +8,7 @@ local options = {
         fps = 60
     },
 
-    title = "Interceptor2D",
-    focus = true,
-    pause = false
+    title = "Interceptor2D"
 }
 
 return options

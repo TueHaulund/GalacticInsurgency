@@ -6,6 +6,9 @@ interface = {}
 --Global options object
 options = require "scripts/options"
 
+options.focus = true
+options.pause = false
+
 local game = require "scripts/game"
 
 --Table of actions to take on specific events

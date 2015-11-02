@@ -13,13 +13,17 @@ local function setupWorld()
     tiny.addSystem(world, systems.controlSystem)
     tiny.addSystem(world, systems.movementSystem)
     tiny.addSystem(world, systems.backgroundSystem)
+    tiny.addSystem(world, systems.emitterSystem)
+    tiny.addSystem(world, systems.particleSystem)
     tiny.addSystem(world, systems.renderSystem)
     tiny.refresh(world)
 
     tiny.setSystemIndex(world, systems.controlSystem, 1)
     tiny.setSystemIndex(world, systems.movementSystem, 2)
     tiny.setSystemIndex(world, systems.backgroundSystem, 3)
-    tiny.setSystemIndex(world, systems.renderSystem, 4)
+    tiny.setSystemIndex(world, systems.emitterSystem, 4)
+    tiny.setSystemIndex(world, systems.particleSystem, 5)
+    tiny.setSystemIndex(world, systems.renderSystem, 6)
 end
 
 local function isRenderSystem(_, system)
