@@ -3,7 +3,7 @@
 local function createExhaust(offset)
     return {
         rate = 10,
-        lifetime = {0.05, 0.2, 0.05},
+        temporary = {0.05, 0.2, 0.05},
         rotate = false,
 
         offset = {
@@ -23,7 +23,7 @@ local function createExhaust(offset)
 
         color = {
             r = 255,
-            g = {144, 200},
+            g = {50, 255},
             b = 0,
             a = 255
         }

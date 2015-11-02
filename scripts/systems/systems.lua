@@ -5,6 +5,6 @@ return {
     controlSystem = require "scripts/systems/control",
     backgroundSystem = require "scripts/systems/background",
     emitterSystem = require "scripts/systems/emitter",
-    particleSystem = require "scripts/systems/particle",
+    temporarySystem = require "scripts/systems/temporary",
     renderSystem = require "scripts/systems/render"
 }

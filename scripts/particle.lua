@@ -22,7 +22,7 @@ local counter = 0
 local function createParticle(e, source)
     counter = counter + 1
 
-    return {
+    local particle = {
         position = {
             x = e.position.x + randomize(source.offset.x),
             y = e.position.y + randomize(source.offset.y)
@@ -49,11 +49,14 @@ local function createParticle(e, source)
             }
         },
 
-        particle = {
-            lifetime = randomize(source.lifetime),
-            rotate = source.rotate
-        }
+        temporary = randomize(source.temporary)
     }
+
+    if source.rotate then
+        particle.shape.rotation = 360 - math.deg(math.atan2(particle.velocity.x, particle.velocity.y))
+    end
+
+    return particle
 end
 
 return createParticle
