@@ -86,7 +86,12 @@ void RenderState::SpriteInterface(sel::State &p_lua_state, sf::RenderWindow &p_w
     lua_interface["setSpriteRotation"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_deg) -> void
     {
         if(map_contains(p_identifier))
+        {
+            sf::FloatRect size = m_spritemap.at(p_identifier)->getLocalBounds();
+            m_spritemap.at(p_identifier)->setOrigin(size.width / 2.f, size.height / 2.f);
             m_spritemap.at(p_identifier)->setRotation(static_cast<float>(p_deg));
+            m_spritemap.at(p_identifier)->setOrigin(0.f, 0.f);
+        }
 
         return;
     };
@@ -161,7 +166,12 @@ void RenderState::ShapeInterface(sel::State &p_state, sf::RenderWindow &p_window
     lua_interface["setShapeRotation"] = [this, map_contains] (const std::string &p_identifier, lua_Number p_deg) -> void
     {
         if(map_contains(p_identifier))
+        {
+            sf::FloatRect size = m_shapemap.at(p_identifier)->getLocalBounds();
+            m_shapemap.at(p_identifier)->setOrigin(size.width / 2.f, size.height / 2.f);
             m_shapemap.at(p_identifier)->setRotation(static_cast<float>(p_deg));
+            m_shapemap.at(p_identifier)->setOrigin(0.f, 0.f);
+        }
 
         return;
     };

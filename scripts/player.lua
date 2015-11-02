@@ -4,6 +4,7 @@ local function createExhaust(offset)
     return {
         rate = 10,
         lifetime = {0.05, 0.2, 0.05},
+        rotate = false,
 
         offset = {
             x = offset,

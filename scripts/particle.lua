@@ -50,7 +50,8 @@ local function createParticle(e, source)
         },
 
         particle = {
-            lifetime = randomize(source.lifetime)
+            lifetime = randomize(source.lifetime),
+            rotate = source.rotate
         }
     }
 end

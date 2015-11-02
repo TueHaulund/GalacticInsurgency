@@ -24,6 +24,45 @@ local function setupWorld()
     tiny.setSystemIndex(world, systems.emitterSystem, 4)
     tiny.setSystemIndex(world, systems.particleSystem, 5)
     tiny.setSystemIndex(world, systems.renderSystem, 6)
+
+    --[[tiny.addEntity(world, {
+        position = {
+            x = 200,
+            y = 200
+        },
+
+        emitter = {
+            sources = {
+                {
+                    rate = 2000,
+                    lifetime = {0.1, 2.0, 0.1},
+                    rotate = true,
+
+                    offset = {
+                        x = 0,
+                        y = 0
+                    },
+
+                    size = {
+                        w = {1, 1},
+                        h = {1, 5}
+                    },
+
+                    velocity = {
+                        x = {-50, 50},
+                        y = {-50, 50}
+                    },
+
+                    color = {
+                        r = 255,
+                        g = 255,
+                        b = 255,
+                        a = 255
+                    }
+                }
+            }
+        }
+    })--]]
 end
 
 local function isRenderSystem(_, system)
