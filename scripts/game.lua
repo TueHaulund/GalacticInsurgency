@@ -6,7 +6,7 @@ tiny = require "scripts/tiny"
 local world = tiny.world()
 
 local systems = require "scripts/systems/systems"
-local player = require "scripts/player"
+local player = require "scripts/entities/player"
 
 local function setupWorld()
     for _, system in pairs(systems) do

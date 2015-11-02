@@ -4,7 +4,7 @@ local backgroundSystem = tiny.processingSystem()
 backgroundSystem.filter = tiny.requireAll("position", "velocity", "background")
 backgroundSystem.systemIndex = 3
 
-local createStar = require "scripts/star"
+local createStar = require "scripts/entities/star"
 
 function backgroundSystem:onAddToWorld(world)
     for i = 1, 75 do

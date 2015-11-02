@@ -1,6 +1,6 @@
 --player.lua
 
-local fireLaser = require "scripts/lasers"
+local fireLaser = require "scripts/entities/lasers"
 
 local function createExhaust(offset)
     return {
