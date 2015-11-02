@@ -1,7 +1,7 @@
 --projectile.lua
 
 local projectileSystem = tiny.processingSystem()
-projectileSystem.filer = tiny.requireAll("position", "size", "projectile")
+projectileSystem.filter = tiny.requireAll("position", "size", "projectile")
 projectileSystem.systemIndex = 6
 
 local function outsideScreen(e)
@@ -13,7 +13,7 @@ end
 
 function projectileSystem:process(e, dt)
     if outsideScreen(e) then
-        tiny.removeEntity(self.word, e)
+        tiny.removeEntity(self.world, e)
     end
 end
 

@@ -31,7 +31,7 @@ function controlSystem:process(e, dt)
     
     movement.direction.left = false
     movement.direction.right = false
-    
+
     if offensive.remaining > 0 then
         offensive.remaining = offensive.remaining - dt
     end
@@ -56,7 +56,7 @@ function controlSystem:process(e, dt)
         end
 
         if interface.isKeyPressed(control.fire) then
-            offensive.fire(self.world, e, dt)
+            offensive.fire(self.world, e)
         end
     end
     

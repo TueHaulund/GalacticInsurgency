@@ -1,5 +1,7 @@
 --player.lua
 
+local fireLaser = require "scripts/lasers"
+
 local function createExhaust(offset)
     return {
         rate = 10,
@@ -83,8 +85,14 @@ local player = {
         },
 
         offensive = {
-            cooldown = 2,
-            remaining = 0
+            level = 1,
+            remaining = 0,
+
+            fire = function(world, e)
+                if e.player.offensive.remaining <= 0 then
+                    fireLaser(world, e, e.player.offensive.level)
+                end
+            end
         }
     },
 
@@ -102,7 +110,21 @@ local player = {
             left = 34,
             top = 0,
             width = 34,
-            height = 26
+            height = 26,
+
+            --Updates the clip for the sprite according to direction of movement
+            update = function(e)
+                local leanLeft = e.player.movement.direction.left
+                local leanRight = e.player.movement.direction.right
+
+                if leanLeft and not leanRight then
+                    e.sprite.clip.left = 0
+                elseif leanRight and not leanLeft then
+                    e.sprite.clip.left = 68
+                else
+                    e.sprite.clip.left = 34
+                end
+            end
         }
     },
 
@@ -113,62 +135,5 @@ local player = {
         }
     }
 }
-
---Updates the clip for the sprite according to direction of movement
-function updateClip(e)
-    local leanLeft = e.player.movement.direction.left
-    local leanRight = e.player.movement.direction.right
-
-    if leanLeft and not leanRight then
-        e.sprite.clip.left = 0
-    elseif leanRight and not leanLeft then
-        e.sprite.clip.left = 68
-    else
-        e.sprite.clip.left = 34
-    end
-end
-
-player.sprite.clip.update = updateClip
-
-function fire(world, e, dt)
-    local offensive = e.player.offensive
-
-    if offensive.remaining <= 0 then
-        offensive.remaining = offensive.cooldown
-        tiny.addEntity(world, {
-            position = {
-                x = e.position.x + 10,
-                y = e.position.y + 10
-            },
-
-            velocity = {
-                x = 0,
-                y = -150
-            },
-
-            shape = {
-                identifier = "abe",
-                z = 2,
-                rectangle = {
-                    w = 2,
-                    h = 3
-                },
-
-                fill = {
-                    r = 0,
-                    g = 255,
-                    b = 0,
-                    a = 255
-                }
-            },
-
-            projectile = {
-                damage = 50
-            }
-        })
-    end
-end
-
-player.player.offensive.fire = fire
 
 return player
