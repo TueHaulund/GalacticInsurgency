@@ -36,28 +36,26 @@ function controlSystem:process(e, dt)
         offensive.remaining = offensive.remaining - dt
     end
 
-    if options.focus then
-        if interface.isKeyPressed(control.left) then
-            e.velocity.x = e.velocity.x - (movement.delta.x * dt)
-            movement.direction.left = true
-        end
+    if interface.isKeyPressed(control.left) then
+        e.velocity.x = e.velocity.x - (movement.delta.x * dt)
+        movement.direction.left = true
+    end
 
-        if interface.isKeyPressed(control.right) then
-            e.velocity.x = e.velocity.x + (movement.delta.x * dt)
-            movement.direction.right = true
-        end
+    if interface.isKeyPressed(control.right) then
+        e.velocity.x = e.velocity.x + (movement.delta.x * dt)
+        movement.direction.right = true
+    end
 
-        if interface.isKeyPressed(control.up) then
-            e.velocity.y = e.velocity.y - (movement.delta.y * dt)
-        end
+    if interface.isKeyPressed(control.up) then
+        e.velocity.y = e.velocity.y - (movement.delta.y * dt)
+    end
 
-        if interface.isKeyPressed(control.down) then
-            e.velocity.y = e.velocity.y + (movement.delta.y * dt)
-        end
+    if interface.isKeyPressed(control.down) then
+        e.velocity.y = e.velocity.y + (movement.delta.y * dt)
+    end
 
-        if interface.isKeyPressed(control.fire) then
-            offensive.fire(self.world, e)
-        end
+    if interface.isKeyPressed(control.fire) then
+        offensive.fire(self.world, e)
     end
     
     limitVelocity(e.velocity, movement)

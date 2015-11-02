@@ -6,7 +6,6 @@ interface = {}
 --Global options object
 options = require "scripts/options"
 
-options.focus = true
 options.pause = false
 
 local game = require "scripts/game"
@@ -24,11 +23,11 @@ local eventActions = {
     end,
 
     lostFocus = function()
-        options.focus = false
+        options.pause = true
     end,
 
     gainedFocus = function()
-        options.focus = true
+
     end,
 
     keyPressed = function(k)
