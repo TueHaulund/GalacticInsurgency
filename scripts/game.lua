@@ -74,8 +74,24 @@ local function updateWorld(dt)
     end
 end
 
+local function pauseGame()
+    if not options.pause then
+        options.pause = true
+    end
+end
+
+local function unpauseGame()
+    if options.pause then
+        options.pause = false
+    end
+end
+
 local function togglePause()
-    options.pause = not options.pause
+    if options.pause then
+        unpauseGame()
+    else
+        pauseGame()
+    end
 end
 
 local function clearWorld()
@@ -86,6 +102,8 @@ end
 return {
     setupWorld = setupWorld,
     updateWorld = updateWorld,
+    pauseGame = pauseGame,
+    unpauseGame = unpauseGame,
     togglePause = togglePause,
     clearWorld = clearWorld
 }

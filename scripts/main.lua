@@ -23,7 +23,7 @@ local eventActions = {
     end,
 
     lostFocus = function()
-        options.pause = true
+        game.pauseGame()
     end,
 
     gainedFocus = function()
