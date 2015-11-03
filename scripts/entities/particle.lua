@@ -22,11 +22,18 @@ local counter = 0
 local function createParticle(e, source)
     counter = counter + 1
 
+    local size = {
+        w = randomize(source.size.w),
+        h = randomize(source.size.h)
+    }
+
     local particle = {
         position = {
             x = e.position.x + randomize(source.offset.x),
             y = e.position.y + randomize(source.offset.y)
         },
+
+        size = size,
 
         velocity = {
             x = randomize(source.velocity.x),
@@ -36,10 +43,7 @@ local function createParticle(e, source)
         shape = {
             identifier = "particle"..counter,
             z = 1,
-            rectangle = {
-                w = randomize(source.size.w),
-                h = randomize(source.size.h)
-            },
+            rectangle = size,
 
             fill = {
                 r = randomize(source.color.r),
@@ -49,7 +53,9 @@ local function createParticle(e, source)
             }
         },
 
-        temporary = randomize(source.temporary)
+        temporary = randomize(source.temporary),
+
+        particle = true
     }
 
     if source.rotate then

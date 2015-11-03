@@ -32,8 +32,8 @@ function controlSystem:process(e, dt)
     movement.direction.left = false
     movement.direction.right = false
 
-    if offensive.remaining > 0 then
-        offensive.remaining = offensive.remaining - dt
+    if offensive.cooldown > 0 then
+        offensive.cooldown = offensive.cooldown - dt
     end
 
     if interface.isKeyPressed(control.left) then

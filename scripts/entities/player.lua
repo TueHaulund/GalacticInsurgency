@@ -86,10 +86,10 @@ local player = {
 
         offensive = {
             level = 1,
-            remaining = 0,
+            cooldown = 0,
 
             fire = function(world, e)
-                if e.player.offensive.remaining <= 0 then
+                if e.player.offensive.cooldown <= 0 then
                     fireLaser(world, e, e.player.offensive.level)
                 end
             end
