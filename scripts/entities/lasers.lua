@@ -39,10 +39,6 @@ local lasers = {
                     b = 0,
                     a = 255
                 }
-            },
-
-            projectile = {
-                damage = 30
             }
         })
     end,
@@ -83,10 +79,6 @@ local lasers = {
                     b = 255,
                     a = 255
                 }
-            },
-
-            projectile = {
-                damage = 40
             }
         })
 
@@ -122,10 +114,6 @@ local lasers = {
                     b = 255,
                     a = 255
                 }
-            },
-
-            projectile = {
-                damage = 40
             }
         })
     end

@@ -1,8 +1,8 @@
---projectile.lua
+--oob.lua
 
-local projectileSystem = tiny.processingSystem()
-projectileSystem.filter = tiny.requireAll("position", "size", "projectile")
-projectileSystem.systemIndex = 6
+local oobSystem = tiny.processingSystem()
+oobSystem.filter = tiny.requireAll("position", "size")
+oobSystem.systemIndex = 6
 
 local function outsideScreen(e)
     return (e.position.y > options.video.h)
@@ -11,10 +11,10 @@ local function outsideScreen(e)
         or (e.position.x + e.size.w < 0)
 end
 
-function projectileSystem:process(e, dt)
+function oobSystem:process(e, dt)
     if outsideScreen(e) then
         tiny.removeEntity(self.world, e)
     end
 end
 
-return projectileSystem
+return oobSystem

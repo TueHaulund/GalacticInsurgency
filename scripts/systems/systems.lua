@@ -6,6 +6,6 @@ return {
     backgroundSystem = require "scripts/systems/background",
     emitterSystem = require "scripts/systems/emitter",
     temporarySystem = require "scripts/systems/temporary",
-    projectileSystem = require "scripts/systems/projectile",
+    oobSystem = require "scripts/systems/oob",
     renderSystem = require "scripts/systems/render"
 }
