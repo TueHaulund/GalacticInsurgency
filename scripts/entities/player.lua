@@ -1,7 +1,5 @@
 --player.lua
 
-local fireLaser = require "scripts/entities/lasers"
-
 local function createExhaust(offset)
     return {
         rate = 10,
@@ -48,52 +46,28 @@ local player = {
         y = 0
     },
 
-    control = {
-        left = "a",
-        right = "d",
-        up = "w",
-        down = "s",
-        fire = "space"
-    },
-
     player = {
-        movement = {
-            direction = {
-                left = false,
-                right = false
-            },
-
-            delta = {
-                x = 450,
-                y = 450
-            },
-
-            max = {
-                x = 200,
-                y = 200
-            },
-
-            min = {
-                x = -200,
-                y = -200
-            },
-
-            decay = {
-                x = 0.95,
-                y = 0.95
-            }
+        delta = {
+            x = 450,
+            y = 450
         },
 
-        offensive = {
-            level = 1,
-            cooldown = 0,
+        max = {
+            x = 200,
+            y = 200
+        },
 
-            fire = function(world, e)
-                if e.player.offensive.cooldown <= 0 then
-                    fireLaser(world, e, e.player.offensive.level)
-                end
-            end
-        }
+        min = {
+            x = -200,
+            y = -200
+        },
+
+        decay = {
+            x = 0.95,
+            y = 0.95
+        },
+
+        cooldown = 0
     },
 
     sprite = {
@@ -110,21 +84,7 @@ local player = {
             left = 34,
             top = 0,
             width = 34,
-            height = 26,
-
-            --Updates the clip for the sprite according to direction of movement
-            update = function(e)
-                local leanLeft = e.player.movement.direction.left
-                local leanRight = e.player.movement.direction.right
-
-                if leanLeft and not leanRight then
-                    e.sprite.clip.left = 0
-                elseif leanRight and not leanLeft then
-                    e.sprite.clip.left = 68
-                else
-                    e.sprite.clip.left = 34
-                end
-            end
+            height = 26, 
         }
     },
 

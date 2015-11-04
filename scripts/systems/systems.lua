@@ -1,7 +1,7 @@
 --systems.lua
 
 return {
-    controlSystem = require "scripts/systems/control",
+    playerSystem = require "scripts/systems/player",
     movementSystem = require "scripts/systems/movement",
     backgroundSystem = require "scripts/systems/background",
     emitterSystem = require "scripts/systems/emitter",

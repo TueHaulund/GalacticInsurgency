@@ -4,7 +4,7 @@ local counter = 0
 
 local lasers = {
     function(world, e, dt)
-        e.player.offensive.cooldown = 1.5
+        e.player.cooldown = 1.5
         counter = counter + 1
         
         tiny.addEntity(world, {
@@ -43,7 +43,7 @@ local lasers = {
     end,
 
     function(world, e, dt)
-        e.player.offensive.cooldown = 0.8
+        e.player.cooldown = 0.8
         counter = counter + 1
 
         tiny.addEntity(world, {

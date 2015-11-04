@@ -16,11 +16,7 @@ local function drawSprite(e)
     local id = e.sprite.identifier
     local clip = e.sprite.clip
 
-    if clip.update ~= nil then
-        clip.update(e)
-        interface.setSpriteClip(id, clip.left, clip.top, clip.width, clip.height)
-    end
-
+    interface.setSpriteClip(id, clip.left, clip.top, clip.width, clip.height)
     interface.setSpritePosition(id, e.position.x, e.position.y)
     interface.drawSprite(id)
 end
