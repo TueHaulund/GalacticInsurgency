@@ -109,6 +109,10 @@ function playerSystem:process(e, dt)
     if interface.isKeyPressed("l") then
         upgrade.setLaserLevel(e, 6)
     end
+
+    if interface.isKeyPressed("o") then
+        upgrade.setLaserLevel(e, 7)
+    end
     
     limitVelocity(e.velocity, e.player.min, e.player.max)
     decayVelocity(e.velocity, e.player.decay)

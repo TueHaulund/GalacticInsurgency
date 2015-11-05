@@ -36,7 +36,7 @@ local lasers = {
                     fill = {
                         r = 0,
                         g = 255,
-                        b = 0,
+                        b = 255,
                         a = 255
                     }
                 }
@@ -49,71 +49,58 @@ local lasers = {
         e.player.fire = function(world, e)
             e.player.cooldown = 0.8
 
+            local x, y = e.position.x, e.position.y
+
+            local size = {
+                w = 2,
+                h = 4
+            }
+
+            local velocity = {
+                x = 0,
+                y = -250
+            }
+
+            local color = {
+                r = 0,
+                g = 255,
+                b = 255,
+                a = 255
+            }
+
             tiny.addEntity(world, {
                 position = {
-                    x = e.position.x + 8,
-                    y = e.position.y + 7
+                    x = x + 8,
+                    y = y + 7
                 },
 
-                size = {
-                    w = 2,
-                    h = 4
-                },
-
-                velocity = {
-                    x = 0,
-                    y = -250
-                },
+                size = size,
+                velocity = velocity,
 
                 shape = {
                     identifier = generateIdentifier "laser",
                     z = 2,
 
-                    rectangle = {
-                        w = 2,
-                        h = 4
-                    },
-
-                    fill = {
-                        r = 0,
-                        g = 255,
-                        b = 255,
-                        a = 255
-                    }
+                    rectangle = size,
+                    fill = color
                 }
             })
 
             tiny.addEntity(world, {
                 position = {
-                    x = e.position.x + 24,
-                    y = e.position.y + 7
+                    x = x + 24,
+                    y = y + 7
                 },
 
-                size = {
-                    w = 2,
-                    h = 4
-                },
-
-                velocity = {
-                    x = 0,
-                    y = -250
-                },
+                size = size,
+                velocity = velocity,
 
                 shape = {
                     identifier = generateIdentifier "laser",
                     z = 2,
 
-                    rectangle = {
-                        w = 2,
-                        h = 4
-                    },
-
-                    fill = {
-                        r = 0,
-                        g = 255,
-                        b = 255,
-                        a = 255
-                    }
+                    rectangle = size,
+                    fill = color
                 }
             })
         end
@@ -121,18 +108,224 @@ local lasers = {
 
     [3] = function(e)
         e.player.spriteOffset.y = 50
+        e.player.fire = function(world, e)
+            e.player.cooldown = 0.6
+
+            local x, y = e.position.x, e.position.y
+
+            local size = {
+                w = 2,
+                h = 4
+            }
+
+            local velocity = {
+                x = 0,
+                y = -250
+            }
+
+            local color = {
+                r = 255,
+                g = 0,
+                b = 0,
+                a = 255
+            }
+
+            local function spawn(position)
+                tiny.addEntity(world, {
+                    position = position,
+                    size = size,
+                    velocity = velocity,
+
+                    shape = {
+                        identifier = generateIdentifier "laser",
+                        z = 2,
+                        rectangle = size,
+                        fill = color
+                    }
+                })
+            end
+
+            spawn {x = x + 8, y = y + 7}
+            spawn {x = x + 24, y = y + 7}
+            spawn {x = x + 3, y = y + 8}
+            spawn {x = x + 29, y = y + 8}
+        end
     end,
 
     [4] = function(e)
-        e.player.spriteOffset.y = 75
+        e.player.spriteOffset.y = 50
+        e.player.fire = function(world, e)
+            e.player.cooldown = 0.4
+
+            local x, y = e.position.x, e.position.y
+
+            local size = {
+                w = 2,
+                h = 4
+            }
+
+            local color = {
+                r = 255,
+                g = 0,
+                b = 0,
+                a = 255
+            }
+
+            local function spawn(position, velocity)
+                tiny.addEntity(world, {
+                    position = position,
+                    size = size,
+                    velocity = velocity,
+
+                    shape = {
+                        identifier = generateIdentifier "laser",
+                        z = 2,
+                        rectangle = size,
+                        fill = color
+                    }
+                })
+            end
+
+            spawn({x = x + 16, y = y}, {x = 0, y = -250})
+            spawn({x = x + 8, y = y + 7}, {x = -15, y = -250})
+            spawn({x = x + 24, y = y + 7}, {x = 15, y = -250})
+            spawn({x = x + 3, y = y + 8}, {x = -20, y = -250})
+            spawn({x = x + 29, y = y + 8}, {x = 20, y = -250})
+        end
     end,
 
     [5] = function(e)
-        e.player.spriteOffset.y = 100
+        e.player.spriteOffset.y = 75
+        e.player.fire = function(world, e)
+            e.player.cooldown = 0.3
+
+            local x, y = e.position.x, e.position.y
+
+            local size = {
+                w = 2,
+                h = 4
+            }
+
+            local color = {
+                r = 0,
+                g = 255,
+                b = 0,
+                a = 255
+            }
+
+            local function spawn(position, velocity)
+                tiny.addEntity(world, {
+                    position = position,
+                    size = size,
+                    velocity = velocity,
+
+                    shape = {
+                        identifier = generateIdentifier "laser",
+                        z = 2,
+                        rectangle = size,
+                        fill = color
+                    }
+                })
+            end
+
+            spawn({x = x + 16, y = y}, {x = 0, y = -250})
+            spawn({x = x + 7, y = y + 4}, {x = -15, y = -250})
+            spawn({x = x + 7, y = y + 4}, {x = -30, y = -250})
+            spawn({x = x + 25, y = y + 4}, {x = 15, y = -250})
+            spawn({x = x + 25, y = y + 4}, {x = 30, y = -250})
+        end
     end,
 
-    [6] = function (e)
+    [6] = function(e)
+        e.player.spriteOffset.y = 100
+        e.player.fire = function(world, e)
+            e.player.cooldown = 0.3
+
+            local x, y = e.position.x, e.position.y
+
+            local size = {
+                w = 2,
+                h = 4
+            }
+
+            local color = {
+                r = 0,
+                g = 255,
+                b = 0,
+                a = 255
+            }
+
+            local function spawn(position, velocity)
+                tiny.addEntity(world, {
+                    position = position,
+                    size = size,
+                    velocity = velocity,
+
+                    shape = {
+                        identifier = generateIdentifier "laser",
+                        z = 2,
+                        rectangle = size,
+                        fill = color
+                    }
+                })
+            end
+
+            spawn({x = x + 16, y = y}, {x = 0, y = -250})
+            spawn({x = x + 7, y = y + 4}, {x = -15, y = -250})
+            spawn({x = x + 7, y = y + 4}, {x = -30, y = -250})
+            spawn({x = x + 25, y = y + 4}, {x = 15, y = -250})
+            spawn({x = x + 25, y = y + 4}, {x = 30, y = -250})
+            spawn({x = x + 2, y = y + 5}, {x = -45, y = -250})
+            spawn({x = x + 2, y = y + 5}, {x = -60, y = -250})
+            spawn({x = x + 30, y = y + 5}, {x = 45, y = -250})
+            spawn({x = x + 30, y = y + 5}, {x = 60, y = -250})
+        end
+    end,
+
+    [7] = function(e)
         e.player.spriteOffset.y = 125
+        e.player.fire = function(world, e)
+            e.player.cooldown = 0.2
+
+            local x, y = e.position.x, e.position.y
+
+            local size = {
+                w = 2,
+                h = 4
+            }
+
+            local function spawn(position, velocity, z)
+                tiny.addEntity(world, {
+                    position = position,
+                    size = size,
+                    velocity = velocity,
+
+                    shape = {
+                        identifier = generateIdentifier "laser",
+                        z = z,
+                        rectangle = size,
+                        fill = {
+                            r = math.random(150, 255),
+                            g = math.random(150, 255),
+                            b = math.random(150, 255),
+                            a = 255
+                        }
+                    }
+                })
+            end
+
+            spawn({x = x + 16, y = y}, {x = 0, y = -250}, 2)
+            spawn({x = x + 7, y = y + 4}, {x = -15, y = -250}, 2)
+            spawn({x = x + 7, y = y + 4}, {x = -30, y = -250}, 2)
+            spawn({x = x + 25, y = y + 4}, {x = 15, y = -250}, 2)
+            spawn({x = x + 25, y = y + 4}, {x = 30, y = -250}, 2)
+            spawn({x = x + 2, y = y + 5}, {x = -45, y = -250}, 2)
+            spawn({x = x + 2, y = y + 5}, {x = -60, y = -250}, 2)
+            spawn({x = x + 30, y = y + 5}, {x = 45, y = -250}, 2)
+            spawn({x = x + 30, y = y + 5}, {x = 60, y = -250}, 2)
+            spawn({x = x + 16, y = y + 12}, {x = -100, y = -250}, e.sprite.z + 1)
+            spawn({x = x + 16, y = y + 12}, {x = 100, y = -250}, e.sprite.z + 1)
+        end
     end
 }
 
