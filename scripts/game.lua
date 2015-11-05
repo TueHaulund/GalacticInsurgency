@@ -7,6 +7,7 @@ local world = tiny.world()
 
 local systems = require "scripts/systems/systems"
 local player = require "scripts/entities/player"
+local upgrade = require "scripts/upgrade"
 
 local function setupWorld()
     for _, system in pairs(systems) do
@@ -20,6 +21,9 @@ local function setupWorld()
     end 
 
     tiny.addEntity(world, player)
+    upgrade.setLaserLevel(player, 1)
+    upgrade.setEngineLevel(player, 1)
+
     tiny.addEntity(world, {
         position = {
             x = 200,

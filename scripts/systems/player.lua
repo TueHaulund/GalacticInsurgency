@@ -52,32 +52,38 @@ function playerSystem:process(e, dt)
         e.velocity.y = e.velocity.y + (e.player.delta.y * dt)
     end
 
-    if interface.isKeyPressed("space") and e.player.cooldown <= 0 then
-        e.player.fire(self.world, e)
+    if interface.isKeyPressed("space") then
+        if e.player.cooldown <= 0 and e.player.fire ~=nil then
+            e.player.fire(self.world, e)
+        end
     end
 
-    if interface.isKeyPressed("x") then
+    if interface.isKeyPressed("z") then
         upgrade.setEngineLevel(e, 1)
     end
 
-    if interface.isKeyPressed("c") then
+    if interface.isKeyPressed("x") then
         upgrade.setEngineLevel(e, 2)
     end
 
-    if interface.isKeyPressed("v") then
+    if interface.isKeyPressed("c") then
         upgrade.setEngineLevel(e, 3)
     end
 
-    if interface.isKeyPressed("b") then
+    if interface.isKeyPressed("v") then
         upgrade.setEngineLevel(e, 4)
     end
 
-    if interface.isKeyPressed("n") then
+    if interface.isKeyPressed("b") then
         upgrade.setEngineLevel(e, 5)
     end
 
-    if interface.isKeyPressed("m") then
+    if interface.isKeyPressed("n") then
         upgrade.setEngineLevel(e, 6)
+    end
+
+    if interface.isKeyPressed("m") then
+        upgrade.setEngineLevel(e, 7)
     end
 
     if interface.isKeyPressed("f") then
@@ -99,6 +105,10 @@ function playerSystem:process(e, dt)
     if interface.isKeyPressed("k") then
         upgrade.setLaserLevel(e, 5)
     end
+
+    if interface.isKeyPressed("l") then
+        upgrade.setLaserLevel(e, 6)
+    end
     
     limitVelocity(e.velocity, e.player.min, e.player.max)
     decayVelocity(e.velocity, e.player.decay)
@@ -106,12 +116,14 @@ function playerSystem:process(e, dt)
 
     --Update the clip for the sprite according to the direction of movement
     if leanLeft and not leanRight then
-        e.sprite.clip.left = e.player.spriteOffset
+        e.sprite.clip.left = e.player.spriteOffset.x
     elseif leanRight and not leanLeft then
-        e.sprite.clip.left = e.player.spriteOffset + 2 * e.sprite.clip.width
+        e.sprite.clip.left = e.player.spriteOffset.x + 2 * e.sprite.clip.width
     else
-        e.sprite.clip.left = e.player.spriteOffset + e.sprite.clip.width
+        e.sprite.clip.left = e.player.spriteOffset.x + e.sprite.clip.width
     end
+
+    e.sprite.clip.top = e.player.spriteOffset.y
 end
 
 return playerSystem

@@ -4,7 +4,48 @@ local generateIdentifier = require "scripts/identifier"
 
 local lasers = {
     [1] = function(e)
-        e.sprite.clip.top = 25
+        e.player.spriteOffset.y = 0
+        e.player.fire = function(world, e)
+            e.player.cooldown = 1.2
+
+            tiny.addEntity(world, {
+                position = {
+                    x = e.position.x + 16,
+                    y = e.position.y
+                },
+
+                size = {
+                    w = 2,
+                    h = 4
+                },
+
+                velocity = {
+                    x = 0,
+                    y = -200
+                },
+
+                shape = {
+                    identifier = generateIdentifier "laser",
+                    z = 2,
+
+                    rectangle = {
+                        w = 2,
+                        h = 4
+                    },
+
+                    fill = {
+                        r = 0,
+                        g = 255,
+                        b = 0,
+                        a = 255
+                    }
+                }
+            })
+        end
+    end,
+
+    [2] = function(e)
+        e.player.spriteOffset.y = 25
         e.player.fire = function(world, e)
             e.player.cooldown = 0.8
 
@@ -78,20 +119,20 @@ local lasers = {
         end
     end,
 
-    [2] = function(e)
-        e.sprite.clip.top = 50
-    end,
-
     [3] = function(e)
-        e.sprite.clip.top = 75
+        e.player.spriteOffset.y = 50
     end,
 
     [4] = function(e)
-        e.sprite.clip.top = 100
+        e.player.spriteOffset.y = 75
     end,
 
-    [5] = function (e)
-        e.sprite.clip.top = 125
+    [5] = function(e)
+        e.player.spriteOffset.y = 100
+    end,
+
+    [6] = function (e)
+        e.player.spriteOffset.y = 125
     end
 }
 
@@ -101,7 +142,40 @@ end
 
 local engines = {
     [1] = function(e)
-        e.player.spriteOffset = 102
+        e.player.spriteOffset.x = 0
+        e.emitter.sources = {
+            engine = {
+                rate = 15,
+                temporary = {0.05, 0.1, 0.05},
+                rotate = false,
+
+                offset = {
+                    x = {15, 18},
+                    y = 22
+                },
+
+                size = {
+                    w = {1, 2},
+                    h = {1, 2}
+                },
+
+                velocity = {
+                    x = 0,
+                    y = {25, 75}
+                },
+
+                color = {
+                    r = {200, 255},
+                    g = 0,
+                    b = 0,
+                    a = 255
+                }
+            }
+        }
+    end,
+
+    [2] = function(e)
+        e.player.spriteOffset.x = 102
         e.emitter.sources = {
             engine = {
                 rate = 15,
@@ -133,8 +207,8 @@ local engines = {
         }
     end,
 
-    [2] = function(e)
-        e.player.spriteOffset = 102
+    [3] = function(e)
+        e.player.spriteOffset.x = 102
         e.emitter.sources = {
             engine = {
                 rate = 25,
@@ -166,8 +240,8 @@ local engines = {
         }
     end,
 
-    [3] = function(e)
-        e.player.spriteOffset = 204
+    [4] = function(e)
+        e.player.spriteOffset.x = 204
         e.emitter.sources = {
             leftEngine = {
                 rate = 20,
@@ -227,8 +301,8 @@ local engines = {
         }
     end,
 
-    [4] = function(e)
-        e.player.spriteOffset = 204
+    [5] = function(e)
+        e.player.spriteOffset.x = 204
         e.emitter.sources = {
             leftEngine = {
                 rate = 25,
@@ -288,8 +362,8 @@ local engines = {
         }
     end,
 
-    [5] = function(e)
-        e.player.spriteOffset = 306
+    [6] = function(e)
+        e.player.spriteOffset.x = 306
         e.emitter.sources = {
             engine = {
                 rate = 1,
@@ -321,8 +395,8 @@ local engines = {
         }
     end,
 
-    [6] = function(e)
-        e.player.spriteOffset = 306
+    [7] = function(e)
+        e.player.spriteOffset.x = 306
         e.emitter.sources = {
             centerEngine = {
                 rate = 50,
