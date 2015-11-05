@@ -1,35 +1,5 @@
 --player.lua
 
-local function createExhaust(offset)
-    return {
-        rate = 10,
-        temporary = {0.05, 0.2, 0.05},
-        rotate = false,
-
-        offset = {
-            x = offset,
-            y = 23
-        },
-
-        size = {
-            w = {1, 2},
-            h = {1, 2}
-        },
-
-        velocity = {
-            x = {-10, 10},
-            y = {15, 25}
-        },
-
-        color = {
-            r = 255,
-            g = {50, 255},
-            b = 0,
-            a = 255
-        }
-    }
-end
-
 local player = {
     position = {
         x = 383,
@@ -81,17 +51,43 @@ local player = {
         },
 
         clip = {
-            left = 34,
+            left = 0,
             top = 0,
             width = 34,
-            height = 26, 
+            height = 25,
+            offset = 0
         }
     },
 
     emitter = {
         sources = {
-            createExhaust({10, 11}),
-            createExhaust({22, 23})
+            engine = {
+                rate = 15,
+                temporary = {0.05, 0.1, 0.05},
+                rotate = false,
+
+                offset = {
+                    x = {15, 18},
+                    y = 22
+                },
+
+                size = {
+                    w = {1, 2},
+                    h = {1, 2}
+                },
+
+                velocity = {
+                    x = 0,
+                    y = {25, 75}
+                },
+
+                color = {
+                    r = {200, 255},
+                    g = 0,
+                    b = 0,
+                    a = 255
+                }
+            }
         }
     }
 }
