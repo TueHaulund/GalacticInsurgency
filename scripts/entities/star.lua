@@ -1,9 +1,8 @@
 --star.lua
 
-local counter = 0
+local generateIdentifier = require "scripts/identifier"
 
 local function createStar(initial)
-    counter = counter + 1
     parallaxLevel = math.random(2, 10)
 
     local size = {
@@ -27,7 +26,7 @@ local function createStar(initial)
         },
 
         shape = {
-            identifier = "star"..counter,
+            identifier = generateIdentifier "star",
             z = 0,
             rectangle = size,
 

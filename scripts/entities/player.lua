@@ -1,5 +1,7 @@
 --player.lua
 
+local generateIdentifier = require "scripts/identifier"
+
 local player = {
     position = {
         x = 383,
@@ -37,12 +39,52 @@ local player = {
             y = 0.95
         },
 
-        cooldown = 0
+        cooldown = 0,
+
+        spriteOffset = 0,
+
+        fire = function(world, e)
+            e.player.cooldown = 1.5
+
+            tiny.addEntity(world, {
+                position = {
+                    x = e.position.x + 16,
+                    y = e.position.y
+                },
+
+                size = {
+                    w = 2,
+                    h = 4
+                },
+
+                velocity = {
+                    x = 0,
+                    y = -200
+                },
+
+                shape = {
+                    identifier = generateIdentifier "playerLaser",
+                    z = 2,
+
+                    rectangle = {
+                        w = 2,
+                        h = 4
+                    },
+
+                    fill = {
+                        r = 0,
+                        g = 255,
+                        b = 0,
+                        a = 255
+                    }
+                }
+            })
+        end
     },
 
     sprite = {
         path = "data/sprites/player.tga",
-        identifier = "playerShip",
+        identifier = generateIdentifier "playerShip",
         z = 10,
 
         scale = {
@@ -54,8 +96,7 @@ local player = {
             left = 0,
             top = 0,
             width = 34,
-            height = 25,
-            offset = 0
+            height = 25
         }
     },
 

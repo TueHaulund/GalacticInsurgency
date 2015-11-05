@@ -1,5 +1,7 @@
 --particle.lua
 
+local generateIdentifier = require "scripts/identifier"
+
 local function randomize(interval)
     if type(interval) == "number" then
         return interval
@@ -17,11 +19,7 @@ local function randomize(interval)
     end
 end
 
-local counter = 0
-
 local function createParticle(e, source)
-    counter = counter + 1
-
     local size = {
         w = randomize(source.size.w),
         h = randomize(source.size.h)
@@ -41,7 +39,7 @@ local function createParticle(e, source)
         },
 
         shape = {
-            identifier = "particle"..counter,
+            identifier = generateIdentifier "particle",
             z = 1,
             rectangle = size,
 

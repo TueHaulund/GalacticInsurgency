@@ -1,12 +1,97 @@
 --upgrade.lua
 
+local generateIdentifier = require "scripts/identifier"
+
 local lasers = {
+    [1] = function(e)
+        e.sprite.clip.top = 25
+        e.player.fire = function(world, e)
+            e.player.cooldown = 0.8
+
+            tiny.addEntity(world, {
+                position = {
+                    x = e.position.x + 8,
+                    y = e.position.y + 7
+                },
+
+                size = {
+                    w = 2,
+                    h = 4
+                },
+
+                velocity = {
+                    x = 0,
+                    y = -250
+                },
+
+                shape = {
+                    identifier = generateIdentifier "laser",
+                    z = 2,
+
+                    rectangle = {
+                        w = 2,
+                        h = 4
+                    },
+
+                    fill = {
+                        r = 0,
+                        g = 255,
+                        b = 255,
+                        a = 255
+                    }
+                }
+            })
+
+            tiny.addEntity(world, {
+                position = {
+                    x = e.position.x + 24,
+                    y = e.position.y + 7
+                },
+
+                size = {
+                    w = 2,
+                    h = 4
+                },
+
+                velocity = {
+                    x = 0,
+                    y = -250
+                },
+
+                shape = {
+                    identifier = generateIdentifier "laser",
+                    z = 2,
+
+                    rectangle = {
+                        w = 2,
+                        h = 4
+                    },
+
+                    fill = {
+                        r = 0,
+                        g = 255,
+                        b = 255,
+                        a = 255
+                    }
+                }
+            })
+        end
+    end,
+
     [2] = function(e)
-        
+        e.sprite.clip.top = 50
     end,
 
     [3] = function(e)
+        e.sprite.clip.top = 75
+    end,
 
+    [4] = function(e)
+        e.sprite.clip.top = 100
+    end,
+
+    [5] = function (e)
+        e.sprite.clip.top = 125
     end
 }
 
@@ -15,8 +100,8 @@ local function setLaserLevel(e, level)
 end
 
 local engines = {
-    [2] = function(e)
-        e.sprite.clip.offset = 102
+    [1] = function(e)
+        e.player.spriteOffset = 102
         e.emitter.sources = {
             engine = {
                 rate = 15,
@@ -48,8 +133,8 @@ local engines = {
         }
     end,
 
-    [3] = function(e)
-        e.sprite.clip.offset = 102
+    [2] = function(e)
+        e.player.spriteOffset = 102
         e.emitter.sources = {
             engine = {
                 rate = 25,
@@ -81,8 +166,8 @@ local engines = {
         }
     end,
 
-    [4] = function(e)
-        e.sprite.clip.offset = 204
+    [3] = function(e)
+        e.player.spriteOffset = 204
         e.emitter.sources = {
             leftEngine = {
                 rate = 20,
@@ -142,8 +227,8 @@ local engines = {
         }
     end,
 
-    [5] = function(e)
-        e.sprite.clip.offset = 204
+    [4] = function(e)
+        e.player.spriteOffset = 204
         e.emitter.sources = {
             leftEngine = {
                 rate = 25,
@@ -203,8 +288,8 @@ local engines = {
         }
     end,
 
-    [6] = function(e)
-        e.sprite.clip.offset = 306
+    [5] = function(e)
+        e.player.spriteOffset = 306
         e.emitter.sources = {
             engine = {
                 rate = 1,
@@ -236,8 +321,8 @@ local engines = {
         }
     end,
 
-    [7] = function(e)
-        e.sprite.clip.offset = 306
+    [6] = function(e)
+        e.player.spriteOffset = 306
         e.emitter.sources = {
             centerEngine = {
                 rate = 50,
@@ -331,7 +416,7 @@ local function setEngineLevel(e, level)
 end
 
 local function setHullLevel(e, level)
-
+    e.player.hp.max = 100 + (level * 25)
 end
 
 return {

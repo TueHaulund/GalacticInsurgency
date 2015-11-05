@@ -24,7 +24,6 @@ local function limitPosition(position, size)
     position.y = math.min(position.y, (screen.h - size.h))
 end
 
-local fireLaser = require "scripts/entities/lasers"
 local upgrade = require "scripts/upgrade"
 
 function playerSystem:process(e, dt)
@@ -54,32 +53,52 @@ function playerSystem:process(e, dt)
     end
 
     if interface.isKeyPressed("space") and e.player.cooldown <= 0 then
-        fireLaser(self.world, e, 1)
+        e.player.fire(self.world, e)
     end
 
-    --[[if interface.isKeyPressed("x") then
-        upgrade.upgradeEngine(e, 2)
+    if interface.isKeyPressed("x") then
+        upgrade.setEngineLevel(e, 1)
     end
 
     if interface.isKeyPressed("c") then
-        upgrade.upgradeEngine(e, 3)
+        upgrade.setEngineLevel(e, 2)
     end
 
     if interface.isKeyPressed("v") then
-        upgrade.upgradeEngine(e, 4)
+        upgrade.setEngineLevel(e, 3)
     end
 
     if interface.isKeyPressed("b") then
-        upgrade.upgradeEngine(e, 5)
+        upgrade.setEngineLevel(e, 4)
     end
 
     if interface.isKeyPressed("n") then
-        upgrade.upgradeEngine(e, 6)
+        upgrade.setEngineLevel(e, 5)
     end
 
     if interface.isKeyPressed("m") then
-        upgrade.upgradeEngine(e, 7)
-    end--]]
+        upgrade.setEngineLevel(e, 6)
+    end
+
+    if interface.isKeyPressed("f") then
+        upgrade.setLaserLevel(e, 1)
+    end
+
+    if interface.isKeyPressed("g") then
+        upgrade.setLaserLevel(e, 2)
+    end
+
+    if interface.isKeyPressed("h") then
+        upgrade.setLaserLevel(e, 3)
+    end
+
+    if interface.isKeyPressed("j") then
+        upgrade.setLaserLevel(e, 4)
+    end
+
+    if interface.isKeyPressed("k") then
+        upgrade.setLaserLevel(e, 5)
+    end
     
     limitVelocity(e.velocity, e.player.min, e.player.max)
     decayVelocity(e.velocity, e.player.decay)
@@ -87,11 +106,11 @@ function playerSystem:process(e, dt)
 
     --Update the clip for the sprite according to the direction of movement
     if leanLeft and not leanRight then
-        e.sprite.clip.left = e.sprite.clip.offset
+        e.sprite.clip.left = e.player.spriteOffset
     elseif leanRight and not leanLeft then
-        e.sprite.clip.left = e.sprite.clip.offset + 68
+        e.sprite.clip.left = e.player.spriteOffset + 2 * e.sprite.clip.width
     else
-        e.sprite.clip.left = e.sprite.clip.offset + 34
+        e.sprite.clip.left = e.player.spriteOffset + e.sprite.clip.width
     end
 end
 
