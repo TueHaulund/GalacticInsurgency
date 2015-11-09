@@ -58,7 +58,7 @@ void GameState::Update(float p_dt)
     if(m_active)
     {
         //Update game state in Lua
-        m_lua_state["interface"]["update"](p_dt);
+        m_lua_state["interface"]["update"](static_cast<lua_Number>(p_dt));
 
         //Pass events to Lua handler
         sf::Event event;
@@ -147,7 +147,7 @@ void GameState::BuildEventmap()
 
     m_eventmap[sf::Event::Resized] = [lua_handle_event] (const sf::Event &e) -> void
     {
-        lua_handle_event("resized", e.size.width, e.size.height);
+        lua_handle_event("resized", static_cast<int>(e.size.width), static_cast<int>(e.size.height));
         return;
     };
 
@@ -167,7 +167,7 @@ void GameState::BuildEventmap()
     {
         sf::Keyboard::Key k = e.key.code;
         if(m_keymap_rev.find(k) != m_keymap_rev.end())
-            lua_handle_event("keyPressed", m_keymap_rev.at(k));
+            lua_handle_event("keyPressed", m_keymap_rev.at(k).c_str());
 
         return;
     };
@@ -176,7 +176,7 @@ void GameState::BuildEventmap()
     {
         sf::Keyboard::Key k = e.key.code;
         if(m_keymap_rev.find(k) != m_keymap_rev.end())
-            lua_handle_event("keyReleased", m_keymap_rev.at(k));
+            lua_handle_event("keyReleased", m_keymap_rev.at(k).c_str());
 
         return;
     };
