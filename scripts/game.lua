@@ -8,6 +8,7 @@ local world = tiny.world()
 local systems = require "scripts/systems/systems"
 local player = require "scripts/entities/player"
 local upgrade = require "scripts/upgrade"
+local gui = require "scripts/gui"
 
 local function setupWorld()
     for _, system in pairs(systems) do
@@ -18,7 +19,9 @@ local function setupWorld()
 
     for _, system in pairs(systems) do
         tiny.setSystemIndex(world, system, system.systemIndex)
-    end 
+    end
+
+    gui.setupGUI()
 
     tiny.addEntity(world, player)
     upgrade.setLaserLevel(player, 1)
@@ -75,26 +78,21 @@ local function updateWorld(dt)
         tiny.update(world, dt)
     else
         tiny.update(world, dt, isRenderSystem)
-        interface.drawShape("pause")
     end
+
+    gui.updateGUI(dt)
 end
 
 local function pauseGame()
     if not options.pause then
         options.pause = true
     end
-
-    interface.createRectangle("pause", options.video.w, options.video.h)
-    interface.setShapeFillColor("pause", 64, 64, 64, 128)
-    interface.setShapePosition("pause", 0, 0)
 end
 
 local function unpauseGame()
     if options.pause then
         options.pause = false
     end
-
-    interface.removeShape("pause")
 end
 
 local function togglePause()
@@ -108,6 +106,7 @@ end
 local function clearWorld()
     tiny.clearEntities(world)
     tiny.clearSystems(world)
+    gui.clearGUI()
 end
 
 return {
