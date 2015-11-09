@@ -1,21 +1,21 @@
 --gui.lua
 
+local pause = require "scripts/pause"
+
 local function setupGUI()
-    interface.createRectangle("pause", options.video.w, options.video.h)
-    interface.setShapeFillColor("pause", 64, 64, 64, 128)
-    interface.setShapePosition("pause", 0, 0)
+    pause.setupPauseScreen()
 end
 
 local function updateGUI(dt)
     --Draw gui here
 
     if options.pause then
-        interface.drawShape("pause")
+        pause.drawPauseScreen()
     end
 end
 
 local function clearGUI()
-    interface.removeShape("pause")
+    pause.clearPauseScreen()
 end
 
 return {
