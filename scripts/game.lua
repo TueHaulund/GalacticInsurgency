@@ -75,6 +75,7 @@ local function updateWorld(dt)
         tiny.update(world, dt)
     else
         tiny.update(world, dt, isRenderSystem)
+        interface.drawShape("pause")
     end
 end
 
@@ -82,12 +83,18 @@ local function pauseGame()
     if not options.pause then
         options.pause = true
     end
+
+    interface.createRectangle("pause", options.video.w, options.video.h)
+    interface.setShapeFillColor("pause", 64, 64, 64, 128)
+    interface.setShapePosition("pause", 0, 0)
 end
 
 local function unpauseGame()
     if options.pause then
         options.pause = false
     end
+
+    interface.removeShape("pause")
 end
 
 local function togglePause()

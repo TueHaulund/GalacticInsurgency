@@ -82,10 +82,6 @@ function playerSystem:process(e, dt)
         upgrade.setEngineLevel(e, 6)
     end
 
-    if interface.isKeyPressed("m") then
-        upgrade.setEngineLevel(e, 7)
-    end
-
     if interface.isKeyPressed("f") then
         upgrade.setLaserLevel(e, 1)
     end
