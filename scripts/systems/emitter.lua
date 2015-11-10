@@ -1,11 +1,11 @@
 --emitter.lua
 
+local createParticle = require "scripts/entities/particle"
+
 local function createEmitterSystem()
     local emitterSystem = tiny.processingSystem()
     emitterSystem.filter = tiny.requireAll("position", "emitter")
     emitterSystem.systemIndex = 4
-
-    local createParticle = require "scripts/entities/particle"
 
     function emitterSystem:process(e, dt)
         local sources = e.emitter.sources

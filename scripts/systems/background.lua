@@ -1,11 +1,12 @@
 --background.lua
 
+local createStar = require "scripts/entities/star"
+
 local function createBackgroundSystem()
     local backgroundSystem = tiny.system()
     backgroundSystem.filter = tiny.requireAll("background")
     backgroundSystem.systemIndex = 3
 
-    local createStar = require "scripts/entities/star"
     local starCount = 75
 
     function backgroundSystem:onAddToWorld(world)

@@ -2,73 +2,75 @@
 
 local generateIdentifier = require "scripts/identifier"
 
-local player = {
-    position = {
-        x = 383,
-        y = 500
-    },
-
-    size = {
-        w = 34,
-        h = 26
-    },
-
-    velocity = {
-        x = 0,
-        y = 0
-    },
-
-    player = {
-        delta = {
-            x = 450,
-            y = 450
+local function createPlayer()
+    return {
+        position = {
+            x = 383,
+            y = 500
         },
 
-        max = {
-            x = 200,
-            y = 200
+        size = {
+            w = 34,
+            h = 26
         },
 
-        min = {
-            x = -200,
-            y = -200
-        },
-
-        decay = {
-            x = 0.95,
-            y = 0.95
-        },
-
-        spriteOffset = {
+        velocity = {
             x = 0,
             y = 0
         },
 
-        cooldown = 0,
-        fire = nil
-    },
+        player = {
+            delta = {
+                x = 450,
+                y = 450
+            },
 
-    sprite = {
-        path = "data/sprites/player.tga",
-        identifier = generateIdentifier "playerShip",
-        z = 10,
+            max = {
+                x = 200,
+                y = 200
+            },
 
-        scale = {
-            x = 1,
-            y = 1
+            min = {
+                x = -200,
+                y = -200
+            },
+
+            decay = {
+                x = 0.95,
+                y = 0.95
+            },
+
+            spriteOffset = {
+                x = 0,
+                y = 0
+            },
+
+            cooldown = 0,
+            fire = nil
         },
 
-        clip = {
-            left = 0,
-            top = 0,
-            width = 34,
-            height = 25
+        sprite = {
+            path = "data/sprites/player.tga",
+            identifier = generateIdentifier "playerShip",
+            z = 10,
+
+            scale = {
+                x = 1,
+                y = 1
+            },
+
+            clip = {
+                left = 0,
+                top = 0,
+                width = 34,
+                height = 25
+            }
+        },
+
+        emitter = {
+            sources = {}
         }
-    },
-
-    emitter = {
-        sources = {}
     }
-}
+end
 
-return player
+return createPlayer
