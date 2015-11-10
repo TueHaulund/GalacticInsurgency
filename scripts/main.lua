@@ -6,8 +6,6 @@ interface = {}
 --Global options object
 options = require "scripts/options"
 
-options.pause = false
-
 local game = require "scripts/game"
 
 --Table of actions to take on specific events
@@ -57,17 +55,16 @@ function interface.setup()
     math.randomseed(os.time())
     local video = options.video
     interface.createWindow(video.w, video.h, video.bpp, video.fps, options.title)
-    game.setupWorld()
+    game.setupGame()
 end
 
 --Main update function, called from C++
 function interface.update(dt)
-    game.updateWorld(dt)
+    game.updateGame(dt)
 end
 
 --Teardown function, called from C++
 function interface.tearDown()
-    game.clearWorld()
     interface.clearSprites()
     interface.clearShapes()
     interface.clearText()

@@ -1,11 +1,11 @@
 --systems.lua
 
 return {
-    playerSystem = require "scripts/systems/player",
-    movementSystem = require "scripts/systems/movement",
-    backgroundSystem = require "scripts/systems/background",
-    emitterSystem = require "scripts/systems/emitter",
-    temporarySystem = require "scripts/systems/temporary",
-    oobSystem = require "scripts/systems/oob",
-    renderSystem = require "scripts/systems/render"
+    createPlayerSystem = require "scripts/systems/player",
+    createMovementSystem = require "scripts/systems/movement",
+    createBackgroundSystem = require "scripts/systems/background",
+    createEmitterSystem = require "scripts/systems/emitter",
+    createTemporarySystem = require "scripts/systems/temporary",
+    createOobSystem = require "scripts/systems/oob",
+    createRenderSystem = require "scripts/systems/render"
 }

@@ -5,7 +5,7 @@ local generateIdentifier = require "scripts/identifier"
 local player = {
     position = {
         x = 383,
-        y = 450
+        y = 500
     },
 
     size = {

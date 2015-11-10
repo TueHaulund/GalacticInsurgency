@@ -2,31 +2,35 @@
 
 --Import tiny-ecs
 tiny = require "scripts/tiny"
+local systems = require "scripts/systems/systems"
 
 local world = tiny.world()
+local currentState = "menu"
 
-local systems = require "scripts/systems/systems"
-local player = require "scripts/entities/player"
-local upgrade = require "scripts/upgrade"
-local gui = require "scripts/gui"
+--GUI states
+local pause = require "scripts/pause"
+local menu = require "scripts/menu"
 
-local function setupWorld()
-    for _, system in pairs(systems) do
-        tiny.addSystem(world, system)
+local function setupGame()
+    pause.setupPauseScreen()
+    menu.setupMenuScreen()
+end
+
+local function startGame(level)
+    currentState = "game"
+
+    --Register systems
+    for _, createSystem in pairs(systems) do
+        tiny.addSystem(world, createSystem())
     end
 
-    tiny.refresh(world)
+    --tiny.refresh(world)
 
-    for _, system in pairs(systems) do
-        tiny.setSystemIndex(world, system, system.systemIndex)
-    end
+    --for _, system in pairs(systems) do
+        --tiny.setSystemIndex(world, system, system.systemIndex)
+    --end
 
-    gui.setupGUI()
-
-    tiny.addEntity(world, player)
-    upgrade.setLaserLevel(player, 1)
-    upgrade.setEngineLevel(player, 1)
-
+    --Test explostion
     tiny.addEntity(world, {
         position = {
             x = 200,
@@ -69,51 +73,67 @@ local function setupWorld()
     })
 end
 
-local function isRenderSystem(_, system)
-    return system == systems.renderSystem
-end
-
-local function updateWorld(dt)
-    if not options.pause then
-        tiny.update(world, dt)
-    else
-        tiny.update(world, dt, isRenderSystem)
-    end
-
-    gui.updateGUI(dt)
+local function stopGame()
+    currentState = "menu"
+    tiny.clearEntities(world)
+    tiny.clearSystems(world)
 end
 
 local function pauseGame()
-    if not options.pause then
-        options.pause = true
+    if currentState == "game" then
+        currentState = "pause"
     end
 end
 
 local function unpauseGame()
-    if options.pause then
-        options.pause = false
+    if currentState == "pause" then
+        currentState = "game"
     end
 end
 
 local function togglePause()
-    if options.pause then
-        unpauseGame()
-    else
+    if currentState == "game" then
         pauseGame()
+    elseif currentState == "pause" then
+        unpauseGame()
     end
 end
 
-local function clearWorld()
-    tiny.clearEntities(world)
-    tiny.clearSystems(world)
-    gui.clearGUI()
+local function isRenderSystem(_, system)
+    return system == systems.renderSystem
+end
+
+local foo = 5
+
+local gameStates = {
+    menu = function(dt)
+        foo = foo - dt
+        menu.drawMenuScreen(dt)
+        if foo < 0 then
+            startGame()
+        end
+    end,
+
+    game = function(dt)
+        tiny.update(world, dt)
+    end,
+
+    pause = function(dt)
+        tiny.update(world, dt, isRenderSystem)
+        pause.drawPauseScreen()
+    end
+}
+
+local function updateGame(dt)
+    gameStates[currentState](dt)
 end
 
 return {
-    setupWorld = setupWorld,
-    updateWorld = updateWorld,
+    setupGame = setupGame,
+    startGame = startGame,
+    stopGame = stopGame,
+    updateGame = updateGame,
     pauseGame = pauseGame,
     unpauseGame = unpauseGame,
-    togglePause = togglePause,
-    clearWorld = clearWorld
+    togglePause = togglePause
 }
