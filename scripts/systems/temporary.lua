@@ -1,5 +1,8 @@
 --temporary.lua
 
+--Import tiny-ecs
+local tiny = require "scripts/tiny"
+
 local function createTemporarySystem()
     local temporarySystem = tiny.processingSystem()
     temporarySystem.filter = tiny.requireAll("temporary")

@@ -1,5 +1,8 @@
 --movement.lua
 
+--Import tiny-ecs
+local tiny = require "scripts/tiny"
+
 local function createMovementSystem()
     local movementSystem = tiny.processingSystem()
     movementSystem.filter = tiny.requireAll("position", "velocity")

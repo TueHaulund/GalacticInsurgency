@@ -1,5 +1,6 @@
 --star.lua
 
+local options = require "scripts/options"
 local generateIdentifier = require "scripts/identifier"
 
 local function createStar(initial)

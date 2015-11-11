@@ -1,5 +1,8 @@
 --background.lua
 
+--Import tiny-ecs
+local tiny = require "scripts/tiny"
+
 local createStar = require "scripts/entities/star"
 
 local function createBackgroundSystem()

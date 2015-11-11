@@ -1,5 +1,10 @@
 --oob.lua
 
+--Import tiny-ecs
+local tiny = require "scripts/tiny"
+
+local options = require "scripts/options"
+
 local function createOobSystem()
     local oobSystem = tiny.processingSystem()
     oobSystem.filter = tiny.requireAll("position", "size")

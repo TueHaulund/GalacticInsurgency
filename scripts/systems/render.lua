@@ -1,5 +1,8 @@
 --render.lua
 
+--Import tiny-ecs
+local tiny = require "scripts/tiny"
+
 local function drawSprite(e)
     local id = e.sprite.identifier
     local clip = e.sprite.clip

@@ -1,5 +1,8 @@
 --upgrade.lua
 
+--Import tiny-ecs
+local tiny = require "scripts/tiny"
+
 local generateIdentifier = require "scripts/identifier"
 
 local lasers = {

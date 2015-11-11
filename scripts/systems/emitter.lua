@@ -1,5 +1,8 @@
 --emitter.lua
 
+--Import tiny-ecs
+local tiny = require "scripts/tiny"
+
 local createParticle = require "scripts/entities/particle"
 
 local function createEmitterSystem()

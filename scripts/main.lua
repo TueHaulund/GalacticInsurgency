@@ -1,74 +1,75 @@
 --main.lua
 
---Global C++ interface object
-interface = {}
+local menu = require "scripts/states/menu"
+local game = require "scripts/states/game"
+local pause = require "scripts/states/pause"
 
---Global options object
-options = require "scripts/options"
+local currentState = "menu"
 
-local game = require "scripts/game"
+local function newGame()
+    if currentState == "menu" then
+        currentState = "game"
+        game.start(1)
+    end
+end
 
---Table of actions to take on specific events
-local eventActions = {
-    closed = function()
+local function startGame(level)
+    currentState = "game"
+    game.start(level)
+end
+
+local function exitGame()
+    if currentState == "menu" then
         interface.exit()
+    else
+        currentState = "menu"
+        game.stop()
+    end
+end
+
+local function pauseGame()
+    if currentState == "game" then
+        currentState = "pause"
+    end
+end
+
+local function unpauseGame()
+    if currentState == "pause" then
+        currentState = "game"
+    end
+end
+
+local function togglePause()
+    if currentState == "game" then
+        pauseGame()
+    elseif currentState == "pause" then
+        unpauseGame()
+    end
+end
+
+local update = {
+    menu = function(dt)
+        menu.update(dt)
     end,
 
-    resized = function(w, h)
-        options.video.h = h
-        options.video.w = w
-        interface.resizeWindow(w, h)
+    game = function(dt)
+        game.update(dt, false)
     end,
 
-    lostFocus = function()
-        game.pauseGame()
-    end,
-
-    gainedFocus = function()
-
-    end,
-
-    keyPressed = function(k)
-
-    end,
-
-    keyReleased = function(k)
-        if k == "escape" then
-            interface.exit()
-        end
-
-        if k == "p" then
-            game.togglePause()
-        end
+    pause = function(dt)
+        game.update(dt, true)
+        pause.update()
     end
 }
 
---Event handler, called from C++
-function interface.handleEvent(eventType, ...)
-    if type(eventActions[eventType]) ~= nil then
-        eventActions[eventType](unpack({...}))
+return {
+    newGame = newGame,
+    startGame = startGame,
+    exitGame = exitGame,
+    pauseGame = pauseGame,
+    unpauseGame = unpauseGame,
+    togglePause = togglePause,
+    updateGame = function(dt)
+        update[currentState](dt)
     end
-end
-
---Setup function, called from C++
-function interface.setup()
-    math.randomseed(os.time())
-    local video = options.video
-    interface.createWindow(video.w, video.h, video.bpp, video.fps, options.title)
-    game.setupGame()
-end
-
---Main update function, called from C++
-function interface.update(dt)
-    game.updateGame(dt)
-end
-
---Teardown function, called from C++
-function interface.tearDown()
-    interface.clearSprites()
-    interface.clearShapes()
-    interface.clearText()
-    interface.clearSounds()
-    interface.clearMusic()
-    interface.closeWindow()
-end
+}

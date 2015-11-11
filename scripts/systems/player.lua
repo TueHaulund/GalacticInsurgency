@@ -1,5 +1,10 @@
 --player.lua
 
+--Import tiny-ecs
+local tiny = require "scripts/tiny"
+
+local options = require "scripts/options"
+
 local createPlayer = require "scripts/entities/player"
 
 --Test import
