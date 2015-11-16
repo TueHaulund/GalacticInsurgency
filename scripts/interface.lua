@@ -4,7 +4,7 @@
 interface = {}
 
 local options = require "scripts/options"
-local main
+local main = require "scripts/main"
 
 --Table of actions to take on specific events
 local eventActions = {
@@ -19,7 +19,7 @@ local eventActions = {
     end,
 
     lostFocus = function()
-        main.pauseGame()
+        main.pause()
     end,
 
     gainedFocus = function()
@@ -32,11 +32,11 @@ local eventActions = {
 
     keyReleased = function(k)
         if k == "escape" then
-            main.exitGame()
-        end
-
-        if k == "p" then
+            main.exit()
+        elseif k == "p" then
             main.togglePause()
+        else
+            main.keyPressed(k)
         end
     end
 }
@@ -53,12 +53,12 @@ function interface.setup()
     math.randomseed(os.time())
     local video = options.video
     interface.createWindow(video.w, video.h, video.bpp, video.fps, options.title)
-    main = require "scripts/main"
+    main.setup()
 end
 
 --Main update function, called from C++
 function interface.update(dt)
-    main.updateGame(dt)
+    main.update(dt)
 end
 
 --Teardown function, called from C++

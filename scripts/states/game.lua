@@ -6,17 +6,26 @@ local world = tiny.world()
 
 local systems = require "scripts/systems/systems"
 
-local gameSystems = {
-    playerSystem = systems.createPlayerSystem(),
-    movementSystem = systems.createMovementSystem(),
-    backgroundSystem = systems.createBackgroundSystem(),
-    emitterSystem = systems.createEmitterSystem(),
-    temporarySystem = systems.createTemporarySystem(),
-    oobSystem = systems.createOobSystem(),
-    renderSystem = systems.createRenderSystem()
-}
+local gameSystems = {}
 
-local function start(level)
+local function createSystems()
+    gameSystems = {
+        playerSystem = systems.createPlayerSystem(),
+        movementSystem = systems.createMovementSystem(),
+        backgroundSystem = systems.createBackgroundSystem(),
+        emitterSystem = systems.createEmitterSystem(),
+        temporarySystem = systems.createTemporarySystem(),
+        oobSystem = systems.createOobSystem(),
+        renderSystem = systems.createRenderSystem()
+    }
+end
+
+local function setupGame()
+end
+
+local function startGame(level)
+    createSystems()
+
     --Register systems
     for _, system in pairs(gameSystems) do
         tiny.addSystem(world, system)
@@ -24,11 +33,7 @@ local function start(level)
 
     tiny.refresh(world)
 
-    for _, system in pairs(gameSystems) do
-        tiny.setSystemIndex(world, system, system.systemIndex)
-    end
-
-    --Test explostion
+    --Test explosion
     tiny.addEntity(world, {
         position = {
             x = 200,
@@ -71,16 +76,17 @@ local function start(level)
     })
 end
 
-local function stop()
+local function stopGame()
     tiny.clearEntities(world)
     tiny.clearSystems(world)
+    gameSystems = {}
 end
 
 local function isRenderSystem(_, system)
     return system == gameSystems.renderSystem
 end
 
-local function update(dt, renderOnly)
+local function updateGame(dt, renderOnly)
     if renderOnly then
         tiny.update(world, dt, isRenderSystem)
     else
@@ -89,7 +95,8 @@ local function update(dt, renderOnly)
 end
 
 return {
-    start = start,
-    stop = stop,
-    update = update
+    setupGame = setupGame,
+    startGame = startGame,
+    stopGame = stopGame,
+    updateGame = updateGame
 }
