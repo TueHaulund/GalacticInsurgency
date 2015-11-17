@@ -1,6 +1,5 @@
 --controls.lua
 
-local mainFont = "data/fonts/MainFont.ttf"
 local options = require "scripts/options"
 local screenCenter = {
     x = options.video.w / 2,
@@ -9,13 +8,11 @@ local screenCenter = {
 
 return {
     setupControls = function()
-        interface.createText("controlsHeading", "Controls", mainFont)
-        interface.setTextColor("controlsHeading", 255, 255, 255, 255)
-        interface.setTextSize("controlsHeading", 32)
-        interface.setTextPosition("controlsHeading", screenCenter.x, screenCenter.y)
+        interface.loadSprite("controlBox", "data/sprites/controlbox.tga")
+        interface.setSpritePosition("controlBox", screenCenter.x - 250, screenCenter.y - 250)
     end,
 
     updateControls = function()
-        interface.drawText("controlsHeading")
+        interface.drawSprite("controlBox")
     end
 }

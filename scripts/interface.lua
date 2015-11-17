@@ -31,13 +31,7 @@ local eventActions = {
     end,
 
     keyReleased = function(k)
-        if k == "escape" then
-            main.exit()
-        elseif k == "p" then
-            main.togglePause()
-        else
-            main.keyPressed(k)
-        end
+        main.input(k)
     end
 }
 
