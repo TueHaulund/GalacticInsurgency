@@ -6,6 +6,14 @@ local background = tiny.world()
 local menuSelection = 0
 local showControls = false
 
+local showIntro = true
+local titlePosition = 270
+local titleVelocity = -80
+local titleDelay = 1.3
+
+local overlayAlpha = 255
+local alphaDecay = 100
+
 local main
 
 return {
@@ -25,8 +33,15 @@ return {
             y = options.video.h / 2
         }
 
+        interface.createRectangle("introOverlay", options.video.w, options.video.h)
+        interface.setShapeFillColor("introOverlay", 0, 0, 0, overlayAlpha)
+        interface.setShapePosition("introOverlay", 0, 0)
+
+        interface.loadSprite("menuTitle", "data/sprites/title.tga")
+        interface.setSpritePosition("menuTitle", screenCenter.x - 370, titlePosition)
+
         interface.loadSprite("menuBox", "data/sprites/menubox.tga")
-        interface.setSpritePosition("menuBox", screenCenter.x - 150, screenCenter.y - 200)
+        interface.setSpritePosition("menuBox", screenCenter.x - 150, screenCenter.y - 150)
 
         interface.loadSprite("controlBox", "data/sprites/controlbox.tga")
         interface.setSpritePosition("controlBox", screenCenter.x - 250, screenCenter.y - 250)
@@ -36,15 +51,39 @@ return {
 
     updateMenu = function(dt)
         tiny.update(background, dt)
-        interface.setSpriteClip("menuBox", menuSelection * 300, 0, 300, 400)
-        interface.drawSprite("menuBox")
+        interface.drawSprite("menuTitle")
 
-        if showControls then
-            interface.drawSprite("controlBox")
+        if showIntro then
+            if overlayAlpha >= 0 then
+                overlayAlpha = overlayAlpha - alphaDecay * dt
+                interface.setShapeFillColor("introOverlay", 0, 0, 0, math.max(0, overlayAlpha))
+                interface.drawShape("introOverlay")
+            elseif titleDelay >= 0 then
+                titleDelay = titleDelay - dt
+            else
+                titlePosition = titlePosition + titleVelocity * dt
+
+                if titlePosition <= 40 then
+                    showIntro = false
+                end
+
+                interface.setSpritePosition("menuTitle", 30, titlePosition)
+            end
+        else
+            interface.setSpriteClip("menuBox", menuSelection * 300, 0, 300, 400)
+            interface.drawSprite("menuBox")
+
+            if showControls then
+                interface.drawSprite("controlBox")
+            end
         end
     end,
 
     input = function(k)
+        if showIntro then
+            return
+        end
+
         if showControls then
             if k == "escape" then
                 showControls = false
