@@ -1,5 +1,11 @@
 --game.lua
 
+local options = require "scripts/options"
+local screenCenter = {
+    x = options.video.w / 2,
+    y = options.video.h / 2
+}
+
 local tiny = require "scripts/tiny"
 local gameWorld = tiny.world()
 
@@ -38,13 +44,13 @@ local function startGame(level)
             y = 200
         },
 
-        temporary = 0.5,
+        lifetime = 0.5,
 
         emitter = {
             sources = {
                 {
                     rate = 200,
-                    temporary = {0.1, 1.0, 0.1},
+                    lifetime = {0.1, 1.0, 0.1},
                     rotate = true,
 
                     offset = {
@@ -95,7 +101,7 @@ end
 
 local function input(k)
     if k == "p" then
-        isPaused = ~isPaused
+        isPaused = not isPaused
     elseif k == "escape" then
         main.exitToMenu()
     end
@@ -105,5 +111,6 @@ return {
     setupGame = setupGame,
     startGame = startGame,
     stopGame = stopGame,
-    updateGame = updateGame
+    updateGame = updateGame,
+    input = input
 }

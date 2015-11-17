@@ -56,6 +56,7 @@ return {
                 menuState.input(k)
             elseif currentState == "game" then
                 gameState.input(k)
+            end
         end
     end,
 

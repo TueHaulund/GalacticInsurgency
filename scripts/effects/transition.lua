@@ -2,8 +2,8 @@
 
 local options = require "scripts/options"
 
-local shutterVelocity = 50
-local shutterDelay = 2
+local shutterVelocity = 450
+local shutterDelay = 1
 local shutterState = "close"
 local transitionCallback = nil
 
@@ -13,8 +13,8 @@ local shutterPosition = {
 }
 
 local function reset()
-    shutterVelocity = 50
-    shutterDelay = 2
+    shutterVelocity = 450
+    shutterDelay = 1
     shutterState = "close"
     transitionCallback = nil
 
@@ -47,16 +47,15 @@ return {
 
             if shutterDelay <= 0 then
                 shutterState = "open"
-            else
-                return
+                shutterVelocity = -shutterVelocity
             end
+        else
+            shutterPosition.topShutter = shutterPosition.topShutter + shutterVelocity * dt
+            shutterPosition.bottomShutter = shutterPosition.bottomShutter - shutterVelocity * dt
         end
 
-        shutterPosition.topShutter = shutterPosition.topShutter + shutterVelocity * dt
-        shutterPosition.bottomShutter = shutterPosition.bottomShutter - shutterVelocity * dt
-
-        interface.setSpritePosition("topShutter", 0, position.top)
-        interface.setSpritePosition("bottomShutter", 0, position.bottom)
+        interface.setSpritePosition("topShutter", 0, shutterPosition.topShutter)
+        interface.setSpritePosition("bottomShutter", 0, shutterPosition.bottomShutter)
         interface.drawSprite("topShutter")
         interface.drawSprite("bottomShutter")
 

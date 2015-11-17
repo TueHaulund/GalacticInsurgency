@@ -62,6 +62,8 @@ return {
                 elseif menuSelection == 2 then
                     interface.exit()
                 end
+            elseif k == "escape" then
+                interface.exit()
             end
         end
     end
