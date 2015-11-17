@@ -1,40 +1,38 @@
 --game.lua
 
---Import tiny-ecs
 local tiny = require "scripts/tiny"
-local world = tiny.world()
+local gameWorld = tiny.world()
 
-local systems = require "scripts/systems/systems"
+local isPaused = false
 
-local gameSystems = {}
-
-local function createSystems()
-    gameSystems = {
-        playerSystem = systems.createPlayerSystem(),
-        movementSystem = systems.createMovementSystem(),
-        backgroundSystem = systems.createBackgroundSystem(),
-        emitterSystem = systems.createEmitterSystem(),
-        temporarySystem = systems.createTemporarySystem(),
-        oobSystem = systems.createOobSystem(),
-        renderSystem = systems.createRenderSystem()
-    }
-end
+local main
 
 local function setupGame()
+    --Semi-transparent rectangle overlay
+    interface.createRectangle("pauseOverlay", options.video.w, options.video.h)
+    interface.setShapeFillColor("pauseOverlay", 0, 0, 0, 128)
+    interface.setShapePosition("pauseOverlay", 0, 0)
+
+    interface.loadSprite("pauseBox", "data/sprites/pausebox.tga")
+    interface.setSpritePosition("pauseBox", screenCenter.x - 200, screenCenter.y - 100)
+
+    main = require "scripts/main"
 end
 
 local function startGame(level)
-    createSystems()
+    isPaused = false
 
-    --Register systems
-    for _, system in pairs(gameSystems) do
-        tiny.addSystem(world, system)
+    local systems = require "scripts/systems/systems"
+
+    --Create and register systems
+    for _, createSystem in pairs(systems) do
+        tiny.addSystem(gameWorld, createSystem())
     end
 
-    tiny.refresh(world)
+    tiny.refresh(gameWorld)
 
     --Test explosion
-    tiny.addEntity(world, {
+    tiny.addEntity(gameWorld, {
         position = {
             x = 200,
             y = 200
@@ -77,20 +75,29 @@ local function startGame(level)
 end
 
 local function stopGame()
-    tiny.clearEntities(world)
-    tiny.clearSystems(world)
-    gameSystems = {}
+    tiny.clearEntities(gameWorld)
+    tiny.clearSystems(gameWorld)
 end
 
 local function isRenderSystem(_, system)
-    return system == gameSystems.renderSystem
+    return system._isRender
 end
 
-local function updateGame(dt, renderOnly)
-    if renderOnly then
-        tiny.update(world, dt, isRenderSystem)
+local function updateGame(dt)
+    if isPaused then
+        tiny.update(gameWorld, dt, isRenderSystem)
+        interface.drawShape("pauseOverlay")
+        interface.drawSprite("pauseBox")
     else
-        tiny.update(world, dt)
+        tiny.update(gameWorld, dt)
+    end
+end
+
+local function input(k)
+    if k == "p" then
+        isPaused = ~isPaused
+    elseif k == "escape" then
+        main.exitToMenu()
     end
 end
 

@@ -51,7 +51,7 @@ local function createParticle(e, source)
             }
         },
 
-        temporary = randomize(source.temporary),
+        lifetime = randomize(source.lifetime),
 
         particle = true
     }

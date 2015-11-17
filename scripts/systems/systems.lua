@@ -6,6 +6,6 @@ return {
     createBackgroundSystem = require "scripts/systems/background",
     createEmitterSystem = require "scripts/systems/emitter",
     createTemporarySystem = require "scripts/systems/temporary",
-    createOobSystem = require "scripts/systems/oob",
+    createCullingSystem = require "scripts/systems/culling",
     createRenderSystem = require "scripts/systems/render"
 }

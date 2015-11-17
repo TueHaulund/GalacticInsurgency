@@ -1,6 +1,5 @@
 --background.lua
 
---Import tiny-ecs
 local tiny = require "scripts/tiny"
 
 local createStar = require "scripts/entities/star"
@@ -8,7 +7,6 @@ local createStar = require "scripts/entities/star"
 local function createBackgroundSystem()
     local backgroundSystem = tiny.system()
     backgroundSystem.filter = tiny.requireAll("background")
-    backgroundSystem.systemIndex = 3
 
     local starCount = 75
 

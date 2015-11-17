@@ -19,15 +19,12 @@ local eventActions = {
     end,
 
     lostFocus = function()
-        main.pause()
     end,
 
     gainedFocus = function()
-
     end,
 
     keyPressed = function(k)
-
     end,
 
     keyReleased = function(k)

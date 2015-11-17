@@ -1,6 +1,5 @@
 --render.lua
 
---Import tiny-ecs
 local tiny = require "scripts/tiny"
 
 local function drawSprite(e)
@@ -55,7 +54,6 @@ end
 local function createRenderSystem()
     local renderSystem = tiny.sortedProcessingSystem()
     renderSystem.filter = tiny.requireAll("position", tiny.requireAny("sprite", "shape"))
-    renderSystem.systemIndex = 7
 
     --Sort entities according to their z-index
     function renderSystem:compare(e1, e2)
@@ -88,6 +86,8 @@ local function createRenderSystem()
             drawShape(e)
         end
     end
+
+    renderSystem._isRender = true
 
     return renderSystem
 end

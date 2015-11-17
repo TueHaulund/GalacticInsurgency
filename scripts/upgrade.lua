@@ -342,7 +342,7 @@ local engines = {
         e.emitter.sources = {
             engine = {
                 rate = 15,
-                temporary = {0.05, 0.1, 0.05},
+                lifetime = {0.05, 0.1, 0.05},
                 rotate = false,
 
                 offset = {
@@ -375,7 +375,7 @@ local engines = {
         e.emitter.sources = {
             engine = {
                 rate = 15,
-                temporary = {0.05, 0.1, 0.05},
+                lifetime = {0.05, 0.1, 0.05},
                 rotate = false,
 
                 offset = {
@@ -408,7 +408,7 @@ local engines = {
         e.emitter.sources = {
             engine = {
                 rate = 25,
-                temporary = {0.05, 0.2, 0.05},
+                lifetime = {0.05, 0.2, 0.05},
                 rotate = false,
 
                 offset = {
@@ -441,7 +441,7 @@ local engines = {
         e.emitter.sources = {
             leftEngine = {
                 rate = 20,
-                temporary = {0.05, 0.1, 0.05},
+                lifetime = {0.05, 0.1, 0.05},
                 rotate = false,
 
                 offset = {
@@ -469,7 +469,7 @@ local engines = {
 
             rightEngine = {
                 rate = 20,
-                temporary = {0.05, 0.1, 0.05},
+                lifetime = {0.05, 0.1, 0.05},
                 rotate = false,
 
                 offset = {
@@ -502,7 +502,7 @@ local engines = {
         e.emitter.sources = {
             leftEngine = {
                 rate = 25,
-                temporary = {0.05, 0.2, 0.05},
+                lifetime = {0.05, 0.2, 0.05},
                 rotate = false,
 
                 offset = {
@@ -530,7 +530,7 @@ local engines = {
 
             rightEngine = {
                 rate = 25,
-                temporary = {0.05, 0.2, 0.05},
+                lifetime = {0.05, 0.2, 0.05},
                 rotate = false,
 
                 offset = {
@@ -563,7 +563,7 @@ local engines = {
         e.emitter.sources = {
             centerEngine = {
                 rate = 50,
-                temporary = {0.05, 0.2, 0.05},
+                lifetime = {0.05, 0.2, 0.05},
                 rotate = false,
 
                 offset = {
@@ -591,7 +591,7 @@ local engines = {
 
             leftEngine = {
                 rate = 20,
-                temporary = {0.05, 0.2, 0.05},
+                lifetime = {0.05, 0.2, 0.05},
                 rotate = false,
 
                 offset = {
@@ -619,7 +619,7 @@ local engines = {
 
             rightEngine = {
                 rate = 20,
-                temporary = {0.05, 0.2, 0.05},
+                lifetime = {0.05, 0.2, 0.05},
                 rotate = false,
 
                 offset = {

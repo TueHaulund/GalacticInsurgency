@@ -1,44 +1,23 @@
 --player.lua
 
---Import tiny-ecs
 local tiny = require "scripts/tiny"
-
 local options = require "scripts/options"
 
 local createPlayer = require "scripts/entities/player"
 
---Test import
-local upgrade = require "scripts/upgrade"
-
-local function limitVelocity(velocity, min, max)
-    velocity.x = math.max(velocity.x, min.x)
-    velocity.x = math.min(velocity.x, max.x)
-    velocity.y = math.max(velocity.y, min.y)
-    velocity.y = math.min(velocity.y, max.y)
-end
-
-local function decayVelocity(velocity, decay)
-    velocity.x = decay.x * velocity.x
-    velocity.y = decay.y * velocity.y
-end
-
-local function limitPosition(position, size)
-    local screen = options.video
-    position.x = math.max(position.x, 0)
-    position.x = math.min(position.x, (screen.w - size.w))
-    position.y = math.max(position.y, 0)
-    position.y = math.min(position.y, (screen.h - 100))
-end
-
 local function createPlayerSystem()
     local playerSystem = tiny.processingSystem()
     playerSystem.filter = tiny.requireAll("player")
-    playerSystem.systemIndex = 1
 
     function playerSystem:onAddToWorld(world)
         local player = createPlayer()
+
+        --TEST--
+        local upgrade = require "scripts/upgrade"
         upgrade.setLaserLevel(player, 1)
         upgrade.setEngineLevel(player, 1)
+        --/TEST--
+
         tiny.addEntity(world, player)
     end
 
@@ -74,61 +53,21 @@ local function createPlayerSystem()
             end
         end
 
-        if interface.isKeyPressed("z") then
-            upgrade.setEngineLevel(e, 1)
-        end
+        --Limit velocity in all four directions
+        e.velocity.x = math.max(e.velocity.x, e.player.min.x)
+        e.velocity.x = math.min(e.velocity.x, e.player.max.x)
+        e.velocity.y = math.max(e.velocity.y, e.player.min.y)
+        e.velocity.y = math.min(e.velocity.y, e.player.max.y)
 
-        if interface.isKeyPressed("x") then
-            upgrade.setEngineLevel(e, 2)
-        end
+        --Add velocity decay for gliding effect
+        e.velocity.x = e.player.decay.x * e.velocity.x
+        e.velocity.y = e.player.decay.y * e.velocity.y
 
-        if interface.isKeyPressed("c") then
-            upgrade.setEngineLevel(e, 3)
-        end
-
-        if interface.isKeyPressed("v") then
-            upgrade.setEngineLevel(e, 4)
-        end
-
-        if interface.isKeyPressed("b") then
-            upgrade.setEngineLevel(e, 5)
-        end
-
-        if interface.isKeyPressed("n") then
-            upgrade.setEngineLevel(e, 6)
-        end
-
-        if interface.isKeyPressed("f") then
-            upgrade.setLaserLevel(e, 1)
-        end
-
-        if interface.isKeyPressed("g") then
-            upgrade.setLaserLevel(e, 2)
-        end
-
-        if interface.isKeyPressed("h") then
-            upgrade.setLaserLevel(e, 3)
-        end
-
-        if interface.isKeyPressed("j") then
-            upgrade.setLaserLevel(e, 4)
-        end
-
-        if interface.isKeyPressed("k") then
-            upgrade.setLaserLevel(e, 5)
-        end
-
-        if interface.isKeyPressed("l") then
-            upgrade.setLaserLevel(e, 6)
-        end
-
-        if interface.isKeyPressed("o") then
-            upgrade.setLaserLevel(e, 7)
-        end
-
-        limitVelocity(e.velocity, e.player.min, e.player.max)
-        decayVelocity(e.velocity, e.player.decay)
-        limitPosition(e.position, e.size)
+        --Keep player within viewport
+        e.position.x = math.max(e.position.x, 0)
+        e.position.x = math.min(e.position.x, (options.video.w - e.size.w))
+        e.position.y = math.max(e.position.y, 0)
+        e.position.y = math.min(e.position.y, (options.video.h - 100))
 
         --Update the clip for the sprite according to the direction of movement
         if leanLeft and not leanRight then
