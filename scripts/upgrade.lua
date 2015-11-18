@@ -13,7 +13,7 @@ local lasers = {
 
             tiny.addEntity(world, {
                 position = {
-                    x = e.position.x + 16,
+                    x = e.position.x + 19,
                     y = e.position.y
                 },
 
@@ -346,8 +346,8 @@ local engines = {
                 rotate = false,
 
                 offset = {
-                    x = {15, 18},
-                    y = 22
+                    x = {18, 21},
+                    y = 46
                 },
 
                 size = {

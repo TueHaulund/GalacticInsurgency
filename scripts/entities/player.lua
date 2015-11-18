@@ -10,8 +10,8 @@ local function createPlayer()
         },
 
         size = {
-            w = 34,
-            h = 26
+            w = 40,
+            h = 46
         },
 
         velocity = {
@@ -62,8 +62,8 @@ local function createPlayer()
             clip = {
                 left = 0,
                 top = 0,
-                width = 34,
-                height = 25
+                width = 40,
+                height = 46
             }
         },
 
