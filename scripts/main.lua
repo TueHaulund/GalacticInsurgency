@@ -1,39 +1,28 @@
 --main.lua
 
 local createMenu = require "scripts/menu"
-local gameState = require "scripts/game"
-local transitionEffect = require "scripts/effects/transition"
+local createGame = require "scripts/game"
+local createTransition = require "scripts/effects/transition"
 
-local currentState = menuState
+local currentState
+local menu
+local game
+local transition
 local inTransition = false
-
-math.randomseed(os.time())
-local video = require "scripts/options".video
-interface.createWindow(video.w, video.h, video.bpp, video.fps, "abe")
-
-menuState.setupMenu()
-gameState.setupGame()
-transitionEffect.setupTransition()
 
 local function startGame(level)
     inTransition = true
-
-    transitionEffect.startTransition(function()
-        currentState = gameState
-        gameState.startGame(level)
-    end, function()
-        inTransition = false
+    transition.start(function()
+        currentState = game
+        game.startGame(level)
     end)
 end
 
 local function exitToMenu()
     inTransition = true
-
-    transitionEffect.startTransition(function()
-        currentState = menuState
-        gameState.stopGame()
-    end, function()
-        inTransition = false
+    transition.start(function()
+        currentState = menu
+        game.stopGame()
     end)
 end
 
@@ -41,7 +30,7 @@ function interface.update(dt)
     currentState.update(dt)
 
     if inTransition then
-        transitionEffect.updateTransition(dt)
+        transition.update(dt)
     end
 end
 
@@ -58,11 +47,7 @@ local eventActions = {
 
     keyReleased = function(k)
         if not inTransition then
-            if currentState == menuState then
-                currentState.input(k, function() startGame(1) end)
-            elseif currentState == gameState then
-                currentState.input(k, function() exitToMenu() end)
-            end
+            currentState.input(k)
         end
     end
 }
@@ -73,11 +58,11 @@ function interface.handleEvent(eventType, ...)
     end
 end
 
-return {
-    startGame = startGame,
-    exitToMenu = exitToMenu,
+math.randomseed(os.time())
+local options = require "scripts/options"
+interface.createWindow(options.video.w, options.video.h, options.video.bpp, options.video.fps, options.title)
 
-    stopTransition = function()
-        inTransition = false
-    end
-}
+menu = createMenu(function() startGame(1) end)
+game = createGame(function() exitToMenu() end)
+transition = createTransition(function() inTransition = false end)
+currentState = menu
