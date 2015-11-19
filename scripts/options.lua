@@ -8,7 +8,7 @@ local options = {
         fps = 60
     },
 
-    title = "Interceptor2D"
+    title = "Galactic Insurgency"
 }
 
 return options

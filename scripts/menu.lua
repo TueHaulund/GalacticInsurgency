@@ -2,7 +2,8 @@
 
 local tiny = require "scripts/tiny"
 local systems = require "scripts/systems/systems"
-local options = require "scripts/options"
+
+local createIntro = require "scripts/intro"
 
 local function createMenu(startCallback)
     local background = tiny.world()
@@ -13,25 +14,19 @@ local function createMenu(startCallback)
     tiny.addSystem(background, systems.createCullingSystem())
     tiny.addSystem(background, systems.createRenderSystem())
 
-    local screenCenter = {
-        x = options.video.w / 2,
-        y = options.video.h / 2
-    }
-
     interface.loadSprite("menuTitle", "data/sprites/title.tga")
-    interface.setSpritePosition("menuTitle", screenCenter.x - 370, screenCenter.y - 30)
+    interface.setSpritePosition("menuTitle", 30, 270)
 
     interface.loadSprite("menuBox", "data/sprites/menubox.tga")
-    interface.setSpritePosition("menuBox", screenCenter.x - 150, screenCenter.y - 150)
+    interface.setSpritePosition("menuBox", 250, 150)
 
     interface.loadSprite("controlBox", "data/sprites/controlbox.tga")
-    interface.setSpritePosition("controlBox", screenCenter.x - 250, screenCenter.y - 250)
-
-    local introEffect = createIntro(function() showIntro = false end, "menuTitle")
+    interface.setSpritePosition("controlBox", 150, 50)
 
     local menuSelection = 0
     local showControls = false
     local showIntro = true
+    local introEffect = createIntro(function() showIntro = false end, "menuTitle")
 
     return {
         update = function(dt)

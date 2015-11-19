@@ -1,30 +1,34 @@
 --main.lua
 
+local options = require "scripts/options"
 local createMenu = require "scripts/menu"
 local createGame = require "scripts/game"
-local createTransition = require "scripts/effects/transition"
+local createTransition = require "scripts/transition"
 
-local currentState
+local inTransition = false
+local transition = createTransition(function() inTransition = false end)
+
 local menu
 local game
-local transition
-local inTransition = false
+local currentState
 
-local function startGame(level)
+menu = createMenu(function()
     inTransition = true
     transition.start(function()
         currentState = game
-        game.startGame(level)
+        game.start(1)
     end)
-end
+end)
 
-local function exitToMenu()
+game = createGame(function()
     inTransition = true
     transition.start(function()
         currentState = menu
-        game.stopGame()
+        game.stop()
     end)
-end
+end)
+
+currentState = menu
 
 function interface.update(dt)
     currentState.update(dt)
@@ -53,7 +57,7 @@ local eventActions = {
 }
 
 function interface.handleEvent(eventType, ...)
-    if type(eventActions[eventType]) ~= nil then
+    if eventActions[eventType] ~= nil then
         eventActions[eventType](unpack({...}))
     end
 end
@@ -61,8 +65,3 @@ end
 math.randomseed(os.time())
 local options = require "scripts/options"
 interface.createWindow(options.video.w, options.video.h, options.video.bpp, options.video.fps, options.title)
-
-menu = createMenu(function() startGame(1) end)
-game = createGame(function() exitToMenu() end)
-transition = createTransition(function() inTransition = false end)
-currentState = menu

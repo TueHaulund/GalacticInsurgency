@@ -2,18 +2,17 @@
 
 local tiny = require "scripts/tiny"
 local systems = require "scripts/systems/systems"
-local options = require "scripts/options"
 
 local function createGame(stopCallback)
     local gameWorld = tiny.world()
 
     --Semi-transparent rectangle overlay
-    interface.createRectangle("pauseOverlay", options.video.w, options.video.h)
+    interface.createRectangle("pauseOverlay", 800, 600)
     interface.setShapeFillColor("pauseOverlay", 0, 0, 0, 128)
     interface.setShapePosition("pauseOverlay", 0, 0)
 
     interface.loadSprite("pauseBox", "data/sprites/pausebox.tga")
-    interface.setSpritePosition("pauseBox", options.video.w / 2 - 200, options.video.h / 2 - 100)
+    interface.setSpritePosition("pauseBox", 200, 200)
 
     local isPaused = false
 
