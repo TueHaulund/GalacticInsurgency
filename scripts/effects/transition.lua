@@ -6,6 +6,7 @@ local shutterVelocity = 450
 local shutterDelay = 1
 local shutterState = "close"
 local transitionCallback = nil
+local transitionEndCallback = nil
 
 local shutterPosition = {
     topShutter = -300,
@@ -24,8 +25,6 @@ local function reset()
     }
 end
 
-local main
-
 return {
     setupTransition = function()
         interface.loadSprite("topShutter", "data/sprites/transition.tga")
@@ -33,12 +32,12 @@ return {
 
         interface.loadSprite("bottomShutter", "data/sprites/transition.tga")
         interface.setSpriteClip("bottomShutter", 0, 300, 800, 300)
-        main = require "scripts/main"
     end,
 
-    startTransition = function(callback)
+    startTransition = function(callback, f)
         reset()
         transitionCallback = callback
+        transitionEndCallback = f
     end,
 
     updateTransition = function(dt)
@@ -63,7 +62,7 @@ return {
             transitionCallback()
             shutterState = "delay"
         elseif shutterPosition.topShutter <= -400 and shutterState == "open" then
-            main.stopTransition()
+            transitionEndCallback()
         end
     end
 }

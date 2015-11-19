@@ -7,7 +7,7 @@ int main()
     sf::RenderWindow window;
     sf::Clock clock;
 
-    GameState state("scripts/interface.lua", window);
+    GameState state("scripts/main.lua", window);
 
     while(state.IsActive())
     {

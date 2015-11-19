@@ -21,7 +21,6 @@ class GameState
 {
     public:
         GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, bool p_libs = true);
-        ~GameState();
         bool IsActive() const;
         void Update(float p_dt);
 

@@ -11,8 +11,6 @@ local gameWorld = tiny.world()
 
 local isPaused = false
 
-local main
-
 local function setupGame()
     --Semi-transparent rectangle overlay
     interface.createRectangle("pauseOverlay", options.video.w, options.video.h)
@@ -21,8 +19,6 @@ local function setupGame()
 
     interface.loadSprite("pauseBox", "data/sprites/pausebox.tga")
     interface.setSpritePosition("pauseBox", screenCenter.x - 200, screenCenter.y - 100)
-
-    main = require "scripts/main"
 end
 
 local function startGame(level)
@@ -89,7 +85,7 @@ local function isRenderSystem(_, system)
     return system._isRender
 end
 
-local function updateGame(dt)
+local function update(dt)
     if isPaused then
         tiny.update(gameWorld, dt, isRenderSystem)
         interface.drawShape("pauseOverlay")
@@ -99,11 +95,11 @@ local function updateGame(dt)
     end
 end
 
-local function input(k)
+local function input(k, exitToMenu)
     if k == "p" then
         isPaused = not isPaused
     elseif k == "escape" then
-        main.exitToMenu()
+        exitToMenu()
     end
 end
 
@@ -111,6 +107,6 @@ return {
     setupGame = setupGame,
     startGame = startGame,
     stopGame = stopGame,
-    updateGame = updateGame,
+    update = update,
     input = input
 }

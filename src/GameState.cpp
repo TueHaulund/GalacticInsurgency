@@ -7,8 +7,8 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
 {
     m_active = true;
 
-    //Run main Lua script in our newly created state
-    m_lua_state(m_lua_script.Get().c_str());
+    //Create global interface object in the Lua state
+    m_lua_state("interface = {}");
 
     //Populate key maps and event map
     BuildKeymap();
@@ -36,16 +36,10 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
     m_renderstate(m_lua_state, m_window);
     m_audiostate(m_lua_state);
 
-    //All interface functions in place, tell Lua to setup the game world
-    lua_interface["setup"]();
+    //Run the Lua scripts, setting up the game world
+    m_lua_state(m_lua_script.Get().c_str());
 
     return;
-}
-
-GameState::~GameState()
-{
-    //Tell Lua to clean up the game world
-    m_lua_state["interface"]["tearDown"]();
 }
 
 bool GameState::IsActive() const
@@ -137,46 +131,46 @@ void GameState::BuildKeymap()
 
 void GameState::BuildEventmap()
 {
-    auto lua_handle_event = m_lua_state["interface"]["handleEvent"];
+    auto lua_interface = m_lua_state["interface"];
 
-    m_eventmap[sf::Event::Closed] = [lua_handle_event] (const sf::Event &e) -> void
+    m_eventmap[sf::Event::Closed] = [lua_interface] (const sf::Event &e) -> void
     {
-        lua_handle_event("closed");
+        lua_interface["handleEvent"]("closed");
         return;
     };
 
-    m_eventmap[sf::Event::Resized] = [lua_handle_event] (const sf::Event &e) -> void
+    m_eventmap[sf::Event::Resized] = [lua_interface] (const sf::Event &e) -> void
     {
-        lua_handle_event("resized", static_cast<int>(e.size.width), static_cast<int>(e.size.height));
+        lua_interface["handleEvent"]("resized", static_cast<int>(e.size.width), static_cast<int>(e.size.height));
         return;
     };
 
-    m_eventmap[sf::Event::LostFocus] = [lua_handle_event] (const sf::Event &e) -> void
+    m_eventmap[sf::Event::LostFocus] = [lua_interface] (const sf::Event &e) -> void
     {
-        lua_handle_event("lostFocus");
+        lua_interface["handleEvent"]("lostFocus");
         return;
     };
 
-    m_eventmap[sf::Event::GainedFocus] = [lua_handle_event] (const sf::Event &e) -> void
+    m_eventmap[sf::Event::GainedFocus] = [lua_interface] (const sf::Event &e) -> void
     {
-        lua_handle_event("gainedFocus");
+        lua_interface["handleEvent"]("gainedFocus");
         return;
     };
 
-    m_eventmap[sf::Event::KeyPressed] = [this, lua_handle_event] (const sf::Event &e) -> void
+    m_eventmap[sf::Event::KeyPressed] = [this, lua_interface] (const sf::Event &e) -> void
     {
         sf::Keyboard::Key k = e.key.code;
         if(m_keymap_rev.find(k) != m_keymap_rev.end())
-            lua_handle_event("keyPressed", m_keymap_rev.at(k).c_str());
+            lua_interface["handleEvent"]("keyPressed", m_keymap_rev.at(k).c_str());
 
         return;
     };
 
-    m_eventmap[sf::Event::KeyReleased] = [this, lua_handle_event] (const sf::Event &e) -> void
+    m_eventmap[sf::Event::KeyReleased] = [this, lua_interface] (const sf::Event &e) -> void
     {
         sf::Keyboard::Key k = e.key.code;
         if(m_keymap_rev.find(k) != m_keymap_rev.end())
-            lua_handle_event("keyReleased", m_keymap_rev.at(k).c_str());
+            lua_interface["handleEvent"]("keyReleased", m_keymap_rev.at(k).c_str());
 
         return;
     };
