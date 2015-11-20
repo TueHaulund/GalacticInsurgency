@@ -1,7 +1,5 @@
 --player.lua
 
-local generateIdentifier = require "scripts/identifier"
-
 local function createPlayer()
     return {
         position = {
@@ -51,7 +49,7 @@ local function createPlayer()
 
         sprite = {
             path = "data/sprites/player.tga",
-            identifier = generateIdentifier "playerShip",
+            identifier = "playerShip",
             z = 10,
 
             scale = {

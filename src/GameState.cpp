@@ -6,6 +6,7 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
     m_window(p_window)
 {
     m_active = true;
+    m_uid = 0;
 
     //Create global interface object in the Lua state
     m_lua_state("interface = {}");
@@ -23,6 +24,12 @@ GameState::GameState(const std::string &p_lua_path, sf::RenderWindow &p_window, 
             return sf::Keyboard::isKeyPressed(m_keymap.at(p_key));
         else
             return false;
+    };
+
+    //Inject function for generating globally unique keys
+    lua_interface["getUniqueIdentifier"] = [this] () -> std::string
+    {
+        return std::to_string(m_uid++);
     };
 
     //Inject exit function into Lua state

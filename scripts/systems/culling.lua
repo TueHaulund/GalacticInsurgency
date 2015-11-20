@@ -1,13 +1,12 @@
 --culling.lua
 
 local tiny = require "scripts/tiny"
-local options = require "scripts/options"
 
 local function isOutsideViewport(e)
-    return (e.position.y > options.video.h)
-        or (e.position.x > options.video.w)
-        or (e.position.y + e.size.h < 0)
+    return (e.position.x > 800)
+        or (e.position.y > 600)
         or (e.position.x + e.size.w < 0)
+        or (e.position.y + e.size.h < 0)
 end
 
 local function createCullingSystem()

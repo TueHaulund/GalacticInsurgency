@@ -1,8 +1,5 @@
 --star.lua
 
-local options = require "scripts/options"
-local generateIdentifier = require "scripts/identifier"
-
 local function createStar(initial)
     parallaxLevel = math.random(2, 10)
 
@@ -15,8 +12,8 @@ local function createStar(initial)
 
     return {
         position = {
-            x = math.random(0, options.video.w),
-            y = initial and math.random(top, options.video.h) or top
+            x = math.random(0, 800),
+            y = initial and math.random(top, 600) or top
         },
 
         size = size,
@@ -27,7 +24,7 @@ local function createStar(initial)
         },
 
         shape = {
-            identifier = generateIdentifier "star",
+            identifier = interface.getUniqueIdentifier(),
             z = 0,
             rectangle = size,
 

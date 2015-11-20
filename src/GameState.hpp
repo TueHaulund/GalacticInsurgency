@@ -1,6 +1,7 @@
 #ifndef GAMESTATE_HPP
 #define GAMESTATE_HPP
 
+#include <cstdint>
 #include <string>
 #include <map>
 #include <stdexcept>
@@ -26,6 +27,7 @@ class GameState
 
     private:
         bool m_active;
+        uint64_t m_uid;
 
         sel::State m_lua_state;
         Resource<std::string> m_lua_script;

@@ -3,8 +3,6 @@
 --Import tiny-ecs
 local tiny = require "scripts/tiny"
 
-local generateIdentifier = require "scripts/identifier"
-
 local lasers = {
     [1] = function(e)
         e.player.spriteOffset.y = 0
@@ -28,7 +26,7 @@ local lasers = {
                 },
 
                 shape = {
-                    identifier = generateIdentifier "laser",
+                    identifier = interface.getUniqueIdentifier(),
                     z = 2,
 
                     rectangle = {
@@ -81,7 +79,7 @@ local lasers = {
                 velocity = velocity,
 
                 shape = {
-                    identifier = generateIdentifier "laser",
+                    identifier = interface.getUniqueIdentifier(),
                     z = 2,
 
                     rectangle = size,
@@ -99,7 +97,7 @@ local lasers = {
                 velocity = velocity,
 
                 shape = {
-                    identifier = generateIdentifier "laser",
+                    identifier = interface.getUniqueIdentifier(),
                     z = 2,
 
                     rectangle = size,
@@ -140,7 +138,7 @@ local lasers = {
                     velocity = velocity,
 
                     shape = {
-                        identifier = generateIdentifier "laser",
+                        identifier = interface.getUniqueIdentifier(),
                         z = 2,
                         rectangle = size,
                         fill = color
@@ -181,7 +179,7 @@ local lasers = {
                     velocity = velocity,
 
                     shape = {
-                        identifier = generateIdentifier "laser",
+                        identifier = interface.getUniqueIdentifier(),
                         z = 2,
                         rectangle = size,
                         fill = color
@@ -223,7 +221,7 @@ local lasers = {
                     velocity = velocity,
 
                     shape = {
-                        identifier = generateIdentifier "laser",
+                        identifier = interface.getUniqueIdentifier(),
                         z = 2,
                         rectangle = size,
                         fill = color
@@ -265,7 +263,7 @@ local lasers = {
                     velocity = velocity,
 
                     shape = {
-                        identifier = generateIdentifier "laser",
+                        identifier = interface.getUniqueIdentifier(),
                         z = 2,
                         rectangle = size,
                         fill = color
@@ -304,7 +302,7 @@ local lasers = {
                     velocity = velocity,
 
                     shape = {
-                        identifier = generateIdentifier "laser",
+                        identifier = interface.getUniqueIdentifier(),
                         z = z,
                         rectangle = size,
                         fill = {

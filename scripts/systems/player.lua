@@ -1,7 +1,6 @@
 --player.lua
 
 local tiny = require "scripts/tiny"
-local options = require "scripts/options"
 
 local createPlayer = require "scripts/entities/player"
 
@@ -65,9 +64,9 @@ local function createPlayerSystem()
 
         --Keep player within viewport
         e.position.x = math.max(e.position.x, 0)
-        e.position.x = math.min(e.position.x, (options.video.w - e.size.w))
+        e.position.x = math.min(e.position.x, (800 - e.size.w))
         e.position.y = math.max(e.position.y, 0)
-        e.position.y = math.min(e.position.y, (options.video.h - 100))
+        e.position.y = math.min(e.position.y, (600 - e.size.h))
 
         --Update the clip for the sprite according to the direction of movement
         if leanLeft and not leanRight then
