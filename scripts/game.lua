@@ -3,6 +3,28 @@
 local tiny = require "scripts/tiny"
 local systems = require "scripts/systems/systems"
 
+--Adds all systems to the world with correct indices
+local function addAllSystems(gameWorld)
+    local s = {
+        systems.createBackgroundSystem(),
+        systems.createCullingSystem(),
+        systems.createTemporarySystem(),
+        systems.createEmitterSystem(),
+        systems.createPlayerSystem(),
+        systems.createMovementSystem(),
+        systems.createCollisionSystem(),
+        systems.createRenderSystem()
+    }
+
+    for index, system in ipairs(s) do
+        tiny.addSystem(gameWorld, system)
+        tiny.refresh(gameWorld)
+        tiny.setSystemIndex(gameWorld, system, index)
+    end
+
+    tiny.refresh(gameWorld)
+end
+
 local function createGame(stopCallback)
     local gameWorld = tiny.world()
 
@@ -25,11 +47,7 @@ local function createGame(stopCallback)
             isPaused = false
 
             --Create and register systems
-            for _, createSystem in pairs(systems) do
-                tiny.addSystem(gameWorld, createSystem())
-            end
-
-            tiny.refresh(gameWorld)
+            addAllSystems(gameWorld)
 
             --Test enemy
             tiny.addEntity(gameWorld, {

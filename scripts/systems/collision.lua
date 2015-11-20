@@ -17,9 +17,7 @@ local function createCollisionSystem()
         for _, e2 in pairs(self.entities) do
             if e1 ~= e2 then
                 if isColliding(e1, e2) then
-                    print("colliding")
-                else
-                    print("not colliding")
+                    --Collision
                 end
             end
         end

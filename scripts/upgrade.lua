@@ -12,7 +12,7 @@ local lasers = {
             tiny.addEntity(world, {
                 position = {
                     x = e.position.x + 19,
-                    y = e.position.y
+                    y = e.position.y - 4
                 },
 
                 size = {
@@ -22,7 +22,7 @@ local lasers = {
 
                 velocity = {
                     x = 0,
-                    y = -200
+                    y = -300
                 },
 
                 shape = {
