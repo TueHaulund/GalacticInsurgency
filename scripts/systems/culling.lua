@@ -11,7 +11,7 @@ end
 
 local function createCullingSystem()
     local cullingSystem = tiny.processingSystem()
-    cullingSystem.filter = tiny.requireAll("position", "size")
+    cullingSystem.filter = tiny.requireAll("position", "size", tiny.rejectAny("player"))
 
     function cullingSystem:process(e, dt)
         if isOutsideViewport(e) then

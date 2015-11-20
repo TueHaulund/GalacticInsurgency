@@ -28,7 +28,8 @@ game = createGame(function()
     end)
 end)
 
-currentState = menu
+currentState = game
+game.start(1)
 
 function interface.update(dt)
     currentState.update(dt)

@@ -31,6 +31,44 @@ local function createGame(stopCallback)
 
             tiny.refresh(gameWorld)
 
+            --Test enemy
+            tiny.addEntity(gameWorld, {
+                position = {
+                    x = 400,
+                    y = 400
+                },
+
+                size = {
+                    w = 30,
+                    h = 30
+                },
+
+                velocity = {
+                    x = 10,
+                    y = 10
+                },
+
+                enemy = {
+
+                },
+
+                shape = {
+                    identifier = interface.getUniqueIdentifier(),
+                    z = 9,
+                    rectangle = {
+                        w = 30,
+                        h = 30
+                    },
+
+                    fill = {
+                        r = 255,
+                        g = 0,
+                        b = 0,
+                        a = 255
+                    }
+                }
+            })
+
             --Test explosion
             tiny.addEntity(gameWorld, {
                 position = {
