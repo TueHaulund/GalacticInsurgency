@@ -12,9 +12,7 @@ class Resource
         template <class ResourceLoader>
         Resource(const std::string &p_path, ResourceLoader p_loader) : m_path(p_path)
         {
-            if(!m_cache.Contains(m_path))
-                m_cache.AddResource(m_path, p_loader(m_path));
-
+            Load(p_path, p_loader);
             return;
         }
 
@@ -25,6 +23,11 @@ class Resource
                 m_cache.AddResource(p_path, p_loader(p_path));
 
             return;
+        }
+
+        static void Unload(const std::string &p_path)
+        {
+            m_cache.RemoveResource(p_path);
         }
 
         ResourceType& Get() const
@@ -41,6 +44,12 @@ class Resource
                 void AddResource(const std::string &p_path, std::unique_ptr<ResourceType> p_resource)
                 {
                     m_rmap[p_path] = std::move(p_resource);
+                    return;
+                }
+
+                void RemoveResource(const std::string &p_path)
+                {
+                    m_rmap.erase(p_path);
                     return;
                 }
 
