@@ -3,12 +3,8 @@
 local function createStar(initial)
     parallaxLevel = math.random(2, 10)
 
-    local size = {
-        w = 1,
-        h = math.max(1, 6 / parallaxLevel)
-    }
-
-    local top = 1 - size.h
+    local height = math.max(1, 6 / parallaxLevel)
+    local top = 1 - height
 
     return {
         position = {
@@ -16,7 +12,10 @@ local function createStar(initial)
             y = initial and math.random(top, 600) or top
         },
 
-        size = size,
+        size = {
+            w = 1,
+            h = height
+        },
 
         velocity = {
             x = 0,
@@ -26,7 +25,6 @@ local function createStar(initial)
         shape = {
             identifier = interface.getUniqueIdentifier(),
             z = 0,
-            rectangle = size,
 
             fill = {
                 r = 255,

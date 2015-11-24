@@ -12,15 +12,15 @@ local function createPlayer()
             h = 46
         },
 
-        velocity = {
-            x = 0,
-            y = 0
-        },
+        movement = {
+            velocity = {
+                x = 0,
+                y = 0
+            },
 
-        player = {
             delta = {
-                x = 450,
-                y = 450
+                x = 0,
+                y = 0
             },
 
             max = {
@@ -36,13 +36,10 @@ local function createPlayer()
             decay = {
                 x = 0.95,
                 y = 0.95
-            },
+            }
+        },
 
-            spriteOffset = {
-                x = 0,
-                y = 0
-            },
-
+        player = {
             cooldown = 0,
             fire = nil
         },
@@ -51,11 +48,6 @@ local function createPlayer()
             path = "data/sprites/player.tga",
             identifier = "playerShip",
             z = 10,
-
-            scale = {
-                x = 1,
-                y = 1
-            },
 
             clip = {
                 left = 0,

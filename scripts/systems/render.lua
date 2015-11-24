@@ -8,6 +8,11 @@ local function drawSprite(e)
 
     interface.setSpriteClip(id, clip.left, clip.top, clip.width, clip.height)
     interface.setSpritePosition(id, e.position.x, e.position.y)
+
+    if e.rotation ~= nil then
+        interface.setSpriteRotation(id, e.rotation)
+    end
+
     interface.drawSprite(id)
 end
 
@@ -15,6 +20,11 @@ local function drawShape(e)
     local id = e.shape.identifier
 
     interface.setShapePosition(id, e.position.x, e.position.y)
+
+    if e.rotation ~= nil then
+        interface.setShapeRotation(id, e.rotation)
+    end
+
     interface.drawShape(id)
 end
 
@@ -22,30 +32,21 @@ local function createSprite(e)
     local sprite = e.sprite
     local id = sprite.identifier
     local clip = sprite.clip
-    local scale = sprite.scale
 
     interface.loadSprite(id, sprite.path)
     interface.setSpriteClip(id, clip.left, clip.top, clip.width, clip.height)
-    interface.setSpriteScale(id, scale.x, scale.y)
-
-    if sprite.rotation ~= nil then
-        interface.setSpriteRotation(id, sprite.rotation)
-    end
 end
 
 local function createShape(e)
     local shape = e.shape
+    local size = e.size
     local id = shape.identifier
     local fill = shape.fill
 
-    if shape.rectangle ~= nil then
-        interface.createRectangle(id, shape.rectangle.w, shape.rectangle.h)
-    elseif shape.circle ~= nil then
-        interface.createCircle(id, shape.circle.radius, shape.circle.points)
-    end
-
-    if shape.rotation ~= nil then
-        interface.setShapeRotation(id, shape.rotation)
+    if size.radius ~= nil and size.points ~= nil then
+        interface.createCircle(id, size.radius, size.points)
+    elseif size.w ~= nil and size.h ~= nil then
+        interface.createRectangle(id, size.w, size.h)
     end
 
     interface.setShapeFillColor(id, fill.r, fill.g, fill.b, fill.a)
@@ -53,7 +54,7 @@ end
 
 local function createRenderSystem()
     local renderSystem = tiny.sortedProcessingSystem()
-    renderSystem.filter = tiny.requireAll("position", tiny.requireAny("sprite", "shape"))
+    renderSystem.filter = tiny.requireAll("position", "size", tiny.requireAny("sprite", "shape"))
 
     --Sort entities according to their z-index
     function renderSystem:compare(e1, e2)

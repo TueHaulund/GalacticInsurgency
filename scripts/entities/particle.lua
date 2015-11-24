@@ -18,18 +18,16 @@ local function randomize(interval)
 end
 
 local function createParticle(e, source)
-    local size = {
-        w = randomize(source.size.w),
-        h = randomize(source.size.h)
-    }
-
     local particle = {
         position = {
             x = e.position.x + randomize(source.offset.x),
             y = e.position.y + randomize(source.offset.y)
         },
 
-        size = size,
+        size = {
+            w = randomize(source.size.w),
+            h = randomize(source.size.h)
+        },
 
         velocity = {
             x = randomize(source.velocity.x),
@@ -39,7 +37,6 @@ local function createParticle(e, source)
         shape = {
             identifier = interface.getUniqueIdentifier(),
             z = 1,
-            rectangle = size,
 
             fill = {
                 r = randomize(source.color.r),
@@ -55,7 +52,7 @@ local function createParticle(e, source)
     }
 
     if source.rotate then
-        particle.shape.rotation = 360 - math.deg(math.atan2(particle.velocity.x, particle.velocity.y))
+        particle.rotation = 360 - math.deg(math.atan2(particle.velocity.x, particle.velocity.y))
     end
 
     return particle
