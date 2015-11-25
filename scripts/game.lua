@@ -61,9 +61,11 @@ local function createGame(stopCallback)
                     h = 30
                 },
 
-                velocity = {
-                    x = 10,
-                    y = 10
+                movement = {
+                    velocity = {
+                        x = 10,
+                        y = 10
+                    }
                 },
 
                 enemy = {

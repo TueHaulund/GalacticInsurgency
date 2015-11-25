@@ -24,26 +24,31 @@ local function createPlayerSystem()
         local leanLeft = false
         local leanRight = false
 
+        e.movement.delta = {
+            x = 0,
+            y = 0
+        }
+
         if e.player.cooldown > 0 then
             e.player.cooldown = e.player.cooldown - dt
         end
 
         if interface.isKeyPressed("a") then
-            e.movement.delta.x = -450
+            e.movement.delta.x = e.movement.delta.x - 450
             leanLeft = true
         end
 
         if interface.isKeyPressed("d") then
-            e.movement.delta.x = 450
+            e.movement.delta.x = e.movement.delta.x + 450
             leanRight = true
         end
 
         if interface.isKeyPressed("w") then
-            e.movement.delta.y = -450
+            e.movement.delta.y = e.movement.delta.y - 450
         end
 
         if interface.isKeyPressed("s") then
-            e.movement.delta.y = 450
+            e.movement.delta.y = e.movement.delta.y + 450
         end
 
         if interface.isKeyPressed("space") then

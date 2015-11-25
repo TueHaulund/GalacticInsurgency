@@ -29,9 +29,11 @@ local function createParticle(e, source)
             h = randomize(source.size.h)
         },
 
-        velocity = {
-            x = randomize(source.velocity.x),
-            y = randomize(source.velocity.y)
+        movement = {
+            velocity = {
+                x = randomize(source.velocity.x),
+                y = randomize(source.velocity.y)
+            }
         },
 
         shape = {
@@ -52,7 +54,7 @@ local function createParticle(e, source)
     }
 
     if source.rotate then
-        particle.rotation = 360 - math.deg(math.atan2(particle.velocity.x, particle.velocity.y))
+        particle.rotation = 360 - math.deg(math.atan2(particle.movement.velocity.x, particle.movement.velocity.y))
     end
 
     return particle

@@ -17,9 +17,11 @@ local function createStar(initial)
             h = height
         },
 
-        velocity = {
-            x = 0,
-            y = 150 / parallaxLevel
+        movement = {
+            velocity = {
+                x = 0,
+                y = 150 / parallaxLevel
+            }
         },
 
         shape = {

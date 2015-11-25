@@ -6,38 +6,53 @@ local function createSAP()
     local horizontalProjection = {}
     local verticalProjection = {}
 
-    local function compare(e1, e2)
-        return getBounds(e1).start > getBounds(e2).start
+    local function setBoundingSphereRadius(e)
+        --Set diagonal length using Pythagorean theorem
+        e.size.boundingSphereRadius = 0.5 * math.sqrt(e.size.w ^ 2 + e.size.h ^ 2)
     end
 
-    local function getBoundingRadius(e)
-    --Get diagonal length using Pythagorean theorem
-        return 0.5 * math.sqrt(e.size.w ^ 2 + e.size.h ^ 2)
+    local function setBoundingSphereCenter(e)
+        e.position.boundingSphereCenter = {
+            x = e.position.x + (0.5 * e.size.w),
+            y = e.position.y + (0.5 * e.size.h)
+        }
+    end
+
+    local function getBounds(e, key)
+        if e.size.boundingSphereRadius == nil then
+            setBoundingSphereRadius(e)
+        end
+
+        if e.size.boundingSphereCenter == nil then
+            setBoundingSphereCenter(e)
+        end
+
+        local radius = e.size.boundingSphereRadius
+        local center = e.position.boundingSphereCenter
+
+        return {start = center[key] - radius, stop = center[key] + radius}
     end
 
     --Insertion sort, efficient with high temporal coherence between frames (O(n) for nearly sorted arrays)
-    local function sortProjection(projection)
+    local function sortProjection(projection, key)
+        local function compare(e1, e2)
+            return getBounds(e1, key).start > getBounds(e2, key).start
+        end
+
         for j = 2, #projection do
-            local key = projection[j]
+            local e = projection[j]
             local i = j - 1
-            while i > 0 and compare(projection[i], key) do
+            while i > 0 and compare(projection[i], e) do
                 projection[i + 1] = projection[i]
                 i = i - 1
             end
-            projection[i + 1] = key
+            projection[i + 1] = e
         end
 
         return projection
     end
 
     local function insert(projection, e1)
-        for i, e2 in ipairs(projection) do
-            if not compare(e1, e2) then
-                table.insert(projection, e1, i)
-                return
-            end
-        end
-
         table.insert(projection, e1)
     end
 
@@ -50,7 +65,7 @@ local function createSAP()
         end
     end
 
-    local function sweep(projection)
+    local function sweep(projection, key)
         local intersections = {}
 
         if #projection > 1 then
@@ -59,8 +74,8 @@ local function createSAP()
             for i = 2, #projection do
                 local j = 1
                 while j <= #active do
-                    local start = getBounds(projection[i]).start --FIX
-                    local stop = getBounds(active[j]).stop --FIX
+                    local start = getBounds(projection[i], key).start
+                    local stop = getBounds(active[j], key).stop
 
                     if start > stop then
                         table.remove(active, j)
@@ -97,18 +112,24 @@ local function createSAP()
     end
 
     return {
-        insertEntity = function(e1)
-            insert(horizontalProjection, e1)
-            insert(verticalProjection, e1)
+        insertEntity = function(e)
+            insert(horizontalProjection, e)
+            insert(verticalProjection, e)
         end,
 
         removeEntity = function(e)
-            remove(horizontalProjection, e1)
-            remove(verticalProjection, e1)
+            remove(horizontalProjection, e)
+            remove(verticalProjection, e)
         end,
 
         getCandidates = function()
+            sortProjection(horizontalProjection, "x")
+            sortProjection(verticalProjection, "y")
 
+            local horizontalIntersections = sweep(horizontalProjection, "x")
+            local verticalIntersections = sweep(verticalProjection, "y")
+
+            return prune(horizontalIntersections, verticalIntersections)
         end
     }
 end

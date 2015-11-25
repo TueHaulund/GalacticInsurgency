@@ -31,6 +31,13 @@ local function createMovementSystem()
 
         e.position.x = e.position.x + velocity.x * dt
         e.position.y = e.position.y + velocity.y * dt
+
+        if e.player ~= nil and e.size ~= nil then
+            e.position.x = math.max(e.position.x, 0)
+            e.position.x = math.min(e.position.x, (800 - e.size.w))
+            e.position.y = math.max(e.position.y, 0)
+            e.position.y = math.min(e.position.y, (600 - e.size.h))
+        end
     end
 
     return movementSystem

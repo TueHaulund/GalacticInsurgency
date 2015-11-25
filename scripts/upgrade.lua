@@ -5,7 +5,6 @@ local tiny = require "scripts/tiny"
 
 local lasers = {
     [1] = function(e)
-        e.player.spriteOffset.y = 0
         e.player.fire = function(world, e)
             e.player.cooldown = 1.2
 
@@ -20,19 +19,16 @@ local lasers = {
                     h = 4
                 },
 
-                velocity = {
-                    x = 0,
-                    y = -300
+                movement = {
+                    velocity = {
+                        x = 0,
+                        y = -300
+                    }
                 },
 
                 shape = {
                     identifier = interface.getUniqueIdentifier(),
                     z = 2,
-
-                    rectangle = {
-                        w = 2,
-                        h = 4
-                    },
 
                     fill = {
                         r = 0,
@@ -336,7 +332,6 @@ end
 
 local engines = {
     [1] = function(e)
-        e.player.spriteOffset.x = 0
         e.emitter.sources = {
             engine = {
                 rate = 15,
